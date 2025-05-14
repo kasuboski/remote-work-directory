@@ -66,7 +66,14 @@ nav a:hover {
 main {
   max-width: 1200px;
   margin: 0 auto;
-  padding: calc(var(--spacing-base) * 6) calc(var(--spacing-base) * 4);
+  padding: calc(var(--spacing-base) * 2);
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  main {
+    padding: calc(var(--spacing-base) * 6) calc(var(--spacing-base) * 4);
+  }
 }
 
 footer {
@@ -81,11 +88,34 @@ footer {
 
 /* Search form and filters */
 .search-form {
-  margin: calc(var(--spacing-base) * 4) 0;
+  margin: calc(var(--spacing-base) * 2) 0;
   display: flex;
+  flex-direction: column;
   gap: calc(var(--spacing-base) * 2);
-  align-items: center;
-  flex-wrap: wrap;
+  width: 100%;
+}
+
+.search-form input[type="text"],
+.search-form select {
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .search-form {
+    margin: calc(var(--spacing-base) * 4) 0;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .search-form input[type="text"] {
+    flex: 1;
+    min-width: 200px;
+  }
+
+  .search-form select {
+    width: auto;
+  }
 }
 
 .search-form input[type="text"],
@@ -160,9 +190,18 @@ p {
 /* Spot list */
 .spot-list {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: calc(var(--spacing-base) * 4);
-  margin-top: calc(var(--spacing-base) * 4);
+  grid-template-columns: 1fr;
+  gap: calc(var(--spacing-base) * 2);
+  margin-top: calc(var(--spacing-base) * 2);
+  width: 100%;
+}
+
+@media (min-width: 640px) {
+  .spot-list {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: calc(var(--spacing-base) * 4);
+    margin-top: calc(var(--spacing-base) * 4);
+  }
 }
 
 .spot-card {
