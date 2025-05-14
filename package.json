@@ -1,0 +1,15 @@
+{
+  "name": "remote-work-directory",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy --minify",
+    "cf-typegen": "wrangler types --env-interface CloudflareBindings"
+  },
+  "dependencies": {
+    "convex": "^1.24.1",
+    "hono": "^4.7.9"
+  },
+  "devDependencies": {
+    "wrangler": "^4.4.0"
+  }
+}
