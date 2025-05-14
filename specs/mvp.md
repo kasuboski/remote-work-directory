@@ -88,7 +88,7 @@ Tasks
     *   **Technical Context:** This involves updating the Convex query to include search logic (consider indexing the `name` field in Convex for performance). The frontend form will trigger a page reload/data refetch with the search query parameter.
     *   **Demoable:** A user can type a spot name (or part of it) into the search bar on the homepage, submit the search, and the list of spots updates to show only those whose names match the search term.
 
-6.  **[ ] Implement Basic Filters for Spot List**
+6.  **[x] Implement Basic Filters for Spot List**
     *   **Description:** Allow users to filter the list of spots on the homepage based on WiFi quality, food availability, and typical crowd level.
     *   **Functionality:**
         *   Add filter controls (e.g., dropdowns `<select>` or radio button groups within a form using the GET method) on the homepage for:
