@@ -11,7 +11,7 @@
 :root {
   /* Color Palette */
   --color-primary-text: #333333;
-  --color-secondary-bg: #cce0ff;
+  --color-secondary-bg: #f0f5eb;
   --color-accent: #007bff;
   --color-neutral-bg: #f8f5f0;
   --color-neutral-element: #ffffff;
@@ -19,10 +19,10 @@
   --color-neutral-small: #6c757d;
 
   /* Semantic Colors */
-  --color-excellent: #28a745;
-  --color-good: #ffc107;
-  --color-fair: #fd7e14;
-  --color-poor: #dc3545;
+  --color-excellent: #a8d5aa;
+  --color-good: #ffe0a3;
+  --color-fair: #ffc4a3;
+  --color-poor: #ffb3b3;
   --color-unknown: #6c757d;
 
   /* Base Spacing */
@@ -253,7 +253,7 @@ p {
 .spot-details .detail.food-yes,
 .spot-details .detail.crowd-quiet {
   background-color: var(--color-excellent);
-  color: var(--color-neutral-element);
+  color: var(--color-primary-text);
 }
 
 .spot-details .detail.wifi-good,
@@ -271,7 +271,7 @@ p {
 .spot-details .detail.wifi-poor,
 .spot-details .detail.food-no {
   background-color: var(--color-poor);
-  color: var(--color-neutral-element);
+  color: var(--color-primary-text);
 }
 
 .spot-details .detail.wifi-unknown,
@@ -305,37 +305,4 @@ p {
   display: inline-block;
 }
 
-.detail.wifi-excellent {
-  background-color: #d4edda;
-  color: #155724;
-}
 
-.detail.wifi-good {
-  background-color: #fff3cd;
-  color: #856404;
-}
-
-.detail.wifi-fair {
-  background-color: #fff3cd;
-  color: #856404;
-}
-
-.detail.wifi-poor {
-  background-color: #f8d7da;
-  color: #721c24;
-}
-
-.detail.crowd-quiet {
-  background-color: #d4edda;
-  color: #155724;
-}
-
-.detail.crowd-moderate {
-  background-color: #fff3cd;
-  color: #856404;
-}
-
-.detail.crowd-busy {
-  background-color: #f8d7da;
-  color: #721c24;
-}

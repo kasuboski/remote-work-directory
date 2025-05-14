@@ -22,4 +22,5 @@ Assume the user is running `npm run dev` and `npx convex dev` in the background.
 1. Reference appropriate docs/knowledge
 2. Make changes
 3. Run `direnv exec . npx convex dev --once` to confirm changes
-4. Repeat
+4. If making UI changes check them using playwright.
+5. Repeat
