@@ -1,34 +1,22 @@
 import { Hono } from 'hono'
 import type { FC } from 'hono/jsx'
+import Layout from './components/Layout'
 
 const app = new Hono()
 
-const Layout: FC = (props) => {
-  return (
-    <html>
-      <body>{props.children}</body>
-    </html>
-  )
-}
-
-const Top: FC<{ messages: string[] }> = (props: {
-  messages: string[]
-}) => {
+const Home: FC = () => {
   return (
     <Layout>
-      <h1>Hello Hono!</h1>
-      <ul>
-        {props.messages.map((message) => {
-          return <li>{message}!!</li>
-        })}
-      </ul>
+      <div>
+        <h2>Welcome to Austin Remote Work Spot Finder</h2>
+        <p>Find the perfect spot to work remotely in Austin, TX.</p>
+      </div>
     </Layout>
   )
 }
 
 app.get('/', (c) => {
-  const messages = ['Good Morning', 'Good Evening', 'Good Night']
-  return c.html(<Top messages={messages} />)
+  return c.html(<Home />)
 })
 
 export default app

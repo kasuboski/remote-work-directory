@@ -33,7 +33,7 @@ Tasks
     *   **Technical Context:** Use `convex/schema.ts` to define this table. Administrators will use the Convex dashboard to manage data in this table.
     *   **Demoable:** The Convex dashboard shows the `spots` table with the correct schema. An administrator can manually add, view, edit, and delete entries, including setting the `is_published` flag.
 
-2.  **[ ] Initialize Hono Frontend on Cloudflare Workers with Basic Layout**
+2.  **[x] Initialize Hono Frontend on Cloudflare Workers with Basic Layout**
     *   **Description:** Set up a new Hono project configured for Cloudflare Workers. Create a basic site structure including a shared layout component (e.g., `Layout.tsx`). This layout should include a simple header with the site title "Austin Remote Work Spot Finder," a main content area placeholder, and a simple footer.
     *   **Technical Context:** This involves setting up Hono routing, JSX for templating, and configuring the Cloudflare Workers deployment. The Convex client SDK will need to be installable for later tasks.
     *   **Demoable:** A basic HTML page is served from a Cloudflare Worker URL, displaying the site title in the header and a footer.
