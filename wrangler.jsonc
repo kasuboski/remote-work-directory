@@ -5,7 +5,10 @@
   "compatibility_date": "2025-05-14",
   "assets": {
     "directory": "public"
-  }
+  },
+  "vars": {
+    "CONVEX_URL": ""
+  },
   // "compatibility_flags": [
   //   "nodejs_compat"
   // ],

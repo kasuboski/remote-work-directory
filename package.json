@@ -1,7 +1,7 @@
 {
   "name": "remote-work-directory",
   "scripts": {
-    "dev": "wrangler dev",
+    "dev": "convex dev --once --run-sh 'wrangler dev --var CONVEX_URL:$CONVEX_URL'",
     "deploy": "wrangler deploy --minify",
     "cf-typegen": "wrangler types --env-interface CloudflareBindings"
   },
@@ -10,6 +10,7 @@
     "hono": "^4.7.9"
   },
   "devDependencies": {
+    "@types/node": "^22.15.18",
     "wrangler": "^4.4.0"
   }
 }

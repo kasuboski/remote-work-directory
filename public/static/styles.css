@@ -59,3 +59,119 @@ h2 {
 p {
   margin-bottom: 1rem;
 }
+
+/* Spot Cards */
+.spot-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+  padding: 1rem 0;
+}
+
+.spot-card {
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.spot-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.spot-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.spot-content {
+  padding: 1rem;
+}
+
+.spot-content h2 {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.neighborhood {
+  color: #666;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.spot-details {
+  margin: 1rem 0;
+}
+
+.detail {
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.detail span {
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.view-details {
+  display: inline-block;
+  color: #0066cc;
+  text-decoration: none;
+  font-weight: 500;
+  margin-top: 0.5rem;
+}
+
+.view-details:hover {
+  text-decoration: underline;
+}
+
+/* Spot Details */
+.detail span {
+  display: inline-block;
+  min-width: 60px;
+}
+
+.detail {
+  background-color: #f8f9fa;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  margin-right: 0.5rem;
+  display: inline-block;
+}
+
+.detail.wifi-excellent {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.detail.wifi-good {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.detail.wifi-fair {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.detail.wifi-poor {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.detail.crowd-quiet {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.detail.crowd-moderate {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.detail.crowd-busy {
+  background-color: #f8d7da;
+  color: #721c24;
+}
