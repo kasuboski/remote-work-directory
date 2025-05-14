@@ -47,5 +47,6 @@ export default defineSchema({
     is_published: v.boolean(),
   })
   .index("by_is_published", ["is_published"])
-  .index("by_slug", ["slug"]),
+  .index("by_slug", ["slug"])
+  .searchIndex("search_name", { searchField: "name" }),
 });

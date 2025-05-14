@@ -78,7 +78,7 @@ Tasks
     *   **Technical Context:** The Hono route handler will extract the spot ID from the URL, use it to query Convex, and pass the data to a `SpotDetail.tsx` component for rendering.
     *   **Demoable:** Clicking on a spot from the homepage list navigates to its detail page. The detail page correctly displays all the specified information for that spot, including the map or map link.
 
-5.  **[ ] Implement Keyword Search by Spot Name**
+5.  **[x] Implement Keyword Search by Spot Name**
     *   **Description:** Add functionality to the homepage allowing users to search for spots by their name.
     *   **Functionality:**
         *   Add a search input field (e.g., within an HTML form using the GET method) on the homepage (Spot Listing View).

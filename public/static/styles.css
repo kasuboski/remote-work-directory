@@ -50,6 +50,45 @@ footer {
   margin-top: 2rem;
 }
 
+/* Search form */
+.search-form {
+  margin: 2rem 0;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.search-form input[type="text"] {
+  flex: 1;
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+}
+
+.search-form button {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  background-color: #0066cc;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.search-form button:hover {
+  background-color: #0052a3;
+}
+
+.clear-search {
+  color: #666;
+  text-decoration: none;
+}
+
+.clear-search:hover {
+  text-decoration: underline;
+}
+
 /* Typography */
 h2 {
   color: #2c3e50;

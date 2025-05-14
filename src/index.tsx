@@ -11,13 +11,24 @@ const app = new Hono<{ Bindings: CloudflareBindings }>()
 
 interface HomeProps {
   spots: Doc<'spots'>[];
+  search?: string;
 }
 
-const Home: FC<HomeProps> = ({ spots }) => {
+const Home: FC<HomeProps> = ({ spots, search }) => {
   return (
     <Layout>
       <h2>Remote Work Spots in Austin</h2>
       <p>Find the perfect spot to work remotely in Austin!</p>
+      <form method="get" action="/" class="search-form">
+        <input
+          type="text"
+          name="search"
+          placeholder="Search by spot name..."
+          value={search || ''}
+        />
+        <button type="submit">Search</button>
+        {search && <a href="/" class="clear-search">Clear Search</a>}
+      </form>
       <div class="spot-list">
         {spots.map((spot) => (
           <SpotCard
@@ -39,8 +50,9 @@ const Home: FC<HomeProps> = ({ spots }) => {
 app.get('/', async (c) => {
   const CONVEX_URL = c.env.CONVEX_URL
   const client = new ConvexHttpClient(CONVEX_URL)
-  const spots = await client.query(api.spots.listPublishedSpots)
-  return c.render(<Home spots={spots} />)
+  const search = c.req.query('search')
+  const spots = await client.query(api.spots.listPublishedSpots, { search })
+  return c.render(<Home spots={spots} search={search} />)
 })
 
 interface SpotDetailPageProps {

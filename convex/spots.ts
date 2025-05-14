@@ -1,6 +1,7 @@
 import { query, mutation } from './_generated/server'
-import { Doc } from './_generated/dataModel'
+import { Doc, DataModel } from './_generated/dataModel'
 import { v } from 'convex/values'
+import { OrderedQuery, QueryInitializer } from 'convex/server'
 
 export function slugify(name: string): string {
   return name
@@ -46,10 +47,25 @@ export const generateSlug = mutation({
 })
 
 export const listPublishedSpots = query({
-  handler: async (ctx): Promise<Doc<'spots'>[]> => {
-    return await ctx.db
-      .query('spots')
-      .filter((q) => q.eq(q.field('is_published'), true))
-      .collect()
+  args: { search: v.optional(v.string()) },
+  handler: async (ctx, { search }): Promise<Doc<'spots'>[]> => {
+    // Stage 1: Pick the table to query
+    const tableQuery: QueryInitializer<DataModel['spots']> = ctx.db.query('spots')
+
+    // Stage 2: Apply search index if search term is provided
+    let orderedQuery: OrderedQuery<DataModel['spots']>
+    if (search) {
+      // Search index provides both indexing and ordering by relevance
+      orderedQuery = tableQuery.withSearchIndex('search_name', (q) => q.search('name', search))
+    } else {
+      // If no search, just use the base query with default order
+      orderedQuery = tableQuery
+    }
+
+    // Stage 3: Apply filters
+    orderedQuery = orderedQuery.filter((q) => q.eq(q.field('is_published'), true))
+
+    // Stage 4: Get results
+    return await orderedQuery.collect()
   },
 })
