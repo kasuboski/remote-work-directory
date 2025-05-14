@@ -3,6 +3,7 @@ import type { FC } from 'hono/jsx'
 import { ConvexHttpClient } from 'convex/browser'
 import Layout from './components/Layout'
 import SpotCard from './components/SpotCard'
+import SpotDetail from './components/SpotDetail'
 import type { Doc } from '../convex/_generated/dataModel'
 import { api } from '../convex/_generated/api'
 
@@ -21,7 +22,7 @@ const Home: FC<HomeProps> = ({ spots }) => {
         {spots.map((spot) => (
           <SpotCard
             key={spot._id}
-            id={spot._id}
+            slug={spot.slug}
             name={spot.name}
             neighborhood={spot.neighborhood}
             mainPhotoUrl={spot.main_photo_url}
@@ -40,6 +41,37 @@ app.get('/', async (c) => {
   const client = new ConvexHttpClient(CONVEX_URL)
   const spots = await client.query(api.spots.listPublishedSpots)
   return c.render(<Home spots={spots} />)
+})
+
+interface SpotDetailPageProps {
+  spot: Doc<'spots'> | null
+}
+
+const SpotDetailPage: FC<SpotDetailPageProps> = ({ spot }) => {
+  if (!spot) {
+    return (
+      <Layout>
+        <h1>Spot Not Found</h1>
+        <p>Sorry, we couldn't find the spot you're looking for.</p>
+        <a href="/" class="back-link">← Back to Home</a>
+      </Layout>
+    )
+  }
+
+  return (
+    <Layout>
+      <SpotDetail spot={spot} />
+      <a href="/" class="back-link">← Back to Home</a>
+    </Layout>
+  )
+}
+
+app.get('/spots/:slug', async (c) => {
+  const slug = c.req.param('slug')
+  const CONVEX_URL = c.env.CONVEX_URL
+  const client = new ConvexHttpClient(CONVEX_URL)
+  const spot = await client.query(api.spots.getSpotBySlug, { slug })
+  return c.render(<SpotDetailPage spot={spot} />)
 })
 
 export default app

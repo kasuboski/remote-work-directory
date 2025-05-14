@@ -14,3 +14,12 @@ The backend of the project is implemented using Convex. This code is in the `con
 ## Development environment
 * All terminal commands should be run prefixed with `direnv exec .`
   Ex. `direnv exec . npm run dev` `direnv exec . npm run cf-typegen`
+* The user should be running `npm run dev` already. This means the site is available at http://localhost:8787
+
+## Development Workflow
+Assume the user is running `npm run dev` and `npx convex dev` in the background. Do NOT run these yourself. If it seems like they aren't running remind the user.
+
+1. Reference appropriate docs/knowledge
+2. Make changes
+3. Run `direnv exec . npx convex dev --once` to confirm changes
+4. Repeat

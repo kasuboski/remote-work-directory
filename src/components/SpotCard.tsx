@@ -1,7 +1,7 @@
 import type { FC } from 'hono/jsx'
 
 interface SpotCardProps {
-  id: string
+  slug: string
   name: string
   neighborhood: string | null
   mainPhotoUrl: string | null
@@ -11,7 +11,7 @@ interface SpotCardProps {
 }
 
 const SpotCard: FC<SpotCardProps> = ({
-  id,
+  slug,
   name,
   neighborhood,
   mainPhotoUrl,
@@ -43,7 +43,7 @@ const SpotCard: FC<SpotCardProps> = ({
             </div>
           )}
         </div>
-        <a href={`/spots/${id}`} class="view-details">
+        <a href={`/spots/${slug}`} class="view-details">
           View Details →
         </a>
       </div>

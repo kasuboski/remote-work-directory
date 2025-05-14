@@ -54,11 +54,12 @@ Tasks
     *   **Technical Context:** Use Hono to handle the request, fetch data from Convex, and render JSX components. Create a reusable `SpotCard.tsx` component. Basic CSS should be applied for a clear, list-based presentation.
     *   **Demoable:** The homepage loads and displays a list of spot cards. Each card shows the specified summary information and links to a unique URL for its detail page. Requires some sample data (at least 2-3 spots) in the Convex `spots` table with `is_published: true`.
 
-4.  **[ ] Implement Spot Detail Page**
-    *   **Description:** Create a page to show all available information for a single remote work spot, fetched from Convex based on its ID.
+4.  **[x] Implement Spot Detail Page**
+    *   **Description:** Create a page to show all available information for a single remote work spot, fetched from Convex based on its slugified name.
     *   **Functionality:**
-        *   Set up a dynamic Hono route (e.g., `/spots/:id`).
-        *   Create a Convex query function to fetch a single spot by its `_id`.
+        *   Set up a dynamic Hono route (e.g., `/spots/:slug` where slug is a URL-friendly version of the spot name).
+        *   Create a Convex query function to fetch a single spot by its slugified name.
+        *   Add a `slug` field to the spots table (String, Required) - this should be auto-generated from the name field when spots are created/updated.
         *   The page should display:
             *   `name`, `address`, `neighborhood`.
             *   An embedded map:

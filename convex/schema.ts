@@ -4,6 +4,7 @@ import { v } from "convex/values";
 export default defineSchema({
   spots: defineTable({
     name: v.string(),
+    slug: v.string(),
     address: v.string(),
     neighborhood: v.union(v.string(), v.null()),
     google_places_id: v.union(v.string(), v.null()),
@@ -45,5 +46,6 @@ export default defineSchema({
     date_last_verified_admin: v.string(),
     is_published: v.boolean(),
   })
-  .index("by_is_published", ["is_published"]),
+  .index("by_is_published", ["is_published"])
+  .index("by_slug", ["slug"]),
 });

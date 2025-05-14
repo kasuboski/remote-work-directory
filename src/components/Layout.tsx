@@ -8,6 +8,7 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>Austin Remote Work Spot Finder</title>
         <link rel="stylesheet" href="/static/styles.css" />
+        <link rel="stylesheet" href="/static/SpotDetail.css" />
       </head>
       <body>
         <header>
