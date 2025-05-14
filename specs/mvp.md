@@ -38,7 +38,7 @@ Tasks
     *   **Technical Context:** This involves setting up Hono routing, JSX for templating, and configuring the Cloudflare Workers deployment. The Convex client SDK will need to be installable for later tasks.
     *   **Demoable:** A basic HTML page is served from a Cloudflare Worker URL, displaying the site title in the header and a footer.
 
-3.  **[ ] Implement Homepage: Spot Listing View**
+3.  **[x] Implement Homepage: Spot Listing View**
     *   **Description:** Develop the main page of the site, which lists available remote work spots. This page will fetch and display a summary of each spot marked as `is_published: true` from the Convex backend.
     *   **Functionality:**
         *   Create a Convex query function to fetch all spots where `is_published` is `true`.
