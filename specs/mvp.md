@@ -5,7 +5,7 @@ This project is to build the first version of the "Austin Remote Work Spot Finde
 
 Tasks
 
-1.  **[ ] Setup Convex Backend and Define `spots` Schema**
+1.  **[x] Setup Convex Backend and Define `spots` Schema**
     *   **Description:** Initialize the Convex project and define the database schema for storing information about remote work spots. Create a table named `spots` with the following fields. This schema will be used by administrators to input data via the Convex dashboard and by the frontend to display spot information.
     *   **`spots` Table Schema:**
         *   `name`: (String, Required) e.g., "Cosmic Coffee + Beer Garden"
