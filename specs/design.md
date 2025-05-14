@@ -86,17 +86,21 @@ Secondary: Students, digital nomads visiting Austin, or anyone looking for a tem
 *   Border/Shadow: Include a `1px` solid border using the **Neutral - Borders/Dividers Color (`#cccccc`)**.
 
 ## 7. Iconography
-*   **Library:** Lucide (lucide.dev)
-*   **Style:** Use the default Lucide style (clean lines).
+*   **Library:** Heroicons (heroicons.com)
+*   **Style:** Use the Solid variant of Heroicons
+*   **Implementation:** Icons are implemented as JSX components using the SVG paths from Heroicons. To add a new icon:
+    1. Go to heroicons.com
+    2. Select the Solid variant of the desired icon
+    3. Copy the SVG path
+    4. Create a new component in `src/components/icons` following the existing pattern
 *   **Essential Icons:**
-    *   WiFi Quality: `wifi`
-    *   Food Available: `utensils`
-    *   Power Outlets: `power`
-    *   Search: `search`
-    *   Filter: `filter`
-    *   Map Pin: `map-pin`
-    *   Suggest a Spot Button: `plus`
-    *   (Crowd level is indicated by colored pills and text labels, not a specific icon).
+    *   WiFi Quality: WiFi icon
+    *   Food Available: Fork+Knife icon
+    *   Crowd Level: Users icon
+    *   Search: Magnifying Glass icon
+    *   Filter: Funnel icon
+    *   Map Pin: Map Pin icon
+    *   Suggest a Spot: Plus icon
 
 ## 8. Layouts & Responsiveness
 

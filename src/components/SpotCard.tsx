@@ -1,4 +1,7 @@
 import type { FC } from 'hono/jsx'
+import WifiIcon from './icons/WifiIcon'
+import UtensilsIcon from './icons/UtensilsIcon'
+import UsersIcon from './icons/UsersIcon'
 
 interface SpotCardProps {
   slug: string
@@ -19,6 +22,10 @@ const SpotCard: FC<SpotCardProps> = ({
   foodAvailable,
   crowdLevelTypical,
 }) => {
+  const wifiClass = `wifi-${wifiQuality.toLowerCase()}`
+  const foodClass = `food-${foodAvailable ? 'yes' : 'no'}`
+  const crowdClass = `crowd-${crowdLevelTypical.toLowerCase()}`
+
   return (
     <div class="spot-card">
       {mainPhotoUrl && (
@@ -29,17 +36,19 @@ const SpotCard: FC<SpotCardProps> = ({
         {neighborhood && <p class="neighborhood">{neighborhood}</p>}
         <div class="spot-details">
           {wifiQuality && (
-            <div class="detail">
-              <span>WiFi:</span> {wifiQuality.charAt(0).toUpperCase() + wifiQuality.slice(1)}
+            <div class={`detail ${wifiClass}`}>
+              <span class="icon"><WifiIcon size={16} /></span>
+              {wifiQuality}
             </div>
           )}
-          <div class="detail">
-            <span>Food:</span> {foodAvailable ? 'Available' : 'Not Available'}
+          <div class={`detail ${foodClass}`}>
+            <span class="icon"><UtensilsIcon size={16} /></span>
+            {foodAvailable ? 'Yes' : 'No'}
           </div>
           {crowdLevelTypical && (
-            <div class="detail">
-              <span>Crowd:</span>{' '}
-              {crowdLevelTypical.charAt(0).toUpperCase() + crowdLevelTypical.slice(1)}
+            <div class={`detail ${crowdClass}`}>
+              <span class="icon"><UsersIcon size={16} /></span>
+              {crowdLevelTypical}
             </div>
           )}
         </div>
