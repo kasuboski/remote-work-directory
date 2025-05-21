@@ -1,5 +1,5 @@
-/* Import Rubik font */
-@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&display=swap');
+/* Import Inter, League Spartan, and Roboto Slab fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=League+Spartan:wght@700;800&family=Roboto+Slab:wght@400;700&display=swap');
 
 /* Basic reset and defaults */
 * {
@@ -9,58 +9,109 @@
 }
 
 :root {
-  /* Color Palette */
-  --color-primary-text: #333333;
-  --color-secondary-bg: #f0f5eb;
-  --color-accent: #007bff;
-  --color-neutral-bg: #f8f5f0;
-  --color-neutral-element: #ffffff;
-  --color-neutral-border: #cccccc;
-  --color-neutral-small: #6c757d;
+  /* Austin Analog - Super Stoked System Color Palette (Updated with Can Colors) */
+  --stoked-blue: #057DBA;                 
+  --sunset-orange: #E66601;               
+  --golden-hour-yellow: #CFAC03;          
+  --atx-red: #BE3D00;                     
+  --muted-gold-accent: #9C7527;           
+  --paper-white: #FDFBF4;                 
+  --charcoal-type: #072537;               
+  --slate-grey: #5A6268;                  
+  --line-work-grey: #D1D5DB;              
+  --tinted-blue: #F0F5FA;                 
 
-  /* Semantic Colors */
-  --color-excellent: #a8d5aa;
-  --color-good: #ffe0a3;
-  --color-fair: #ffc4a3;
-  --color-poor: #ffb3b3;
-  --color-unknown: #6c757d;
+  --color-primary-text: var(--charcoal-type); 
+  --color-secondary-bg: var(--tinted-blue); 
+  --color-accent: var(--stoked-blue); 
+  --color-neutral-bg: var(--paper-white); 
+  --color-neutral-element: #FFFFFF; 
+  --color-neutral-border: var(--line-work-grey); 
+  --color-neutral-small: var(--slate-grey); 
+
 
   /* Base Spacing */
   --spacing-base: 8px;
+  --spacing-small: 8px;
+  --spacing-medium: 16px;
+  --spacing-large: 24px;
+  --spacing-x-small: 4px;
+  --border-radius-medium: 8px;
+  --border-radius-large: 12px;
+  --font-size-h1: 48px;
+  --font-size-h2: 36px;
+  --font-size-h3: 24px;
 }
 
 body {
-  font-family: 'Rubik', sans-serif;
+  font-family: 'Inter', sans-serif;
   line-height: 1.6;
-  color: var(--color-primary-text);
-  background-color: var(--color-neutral-bg);
+  color: var(--charcoal-type);
+  background-color: var(--paper-white);
 }
 
 /* Layout */
 header {
-  background-color: var(--color-neutral-element);
-  padding: calc(var(--spacing-base) * 4);
-  border-bottom: 1px solid var(--color-neutral-border);
+  background-color: var(--paper-white);
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--line-work-grey);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header a.site-title-link {
+  text-decoration: none;
 }
 
 header h1 {
-  font-size: 36px;
-  font-weight: bold;
-  margin-bottom: calc(var(--spacing-base) * 2);
+  /* Using H2 styles from global, as per spec for Site Title */
+  font-family: 'League Spartan', sans-serif;
+  font-weight: 700; /* Bold */
+  color: var(--stoked-blue); 
+  font-size: 24px; /* Mobile H3 in spec, but using H2 for now, can refine with media query */
+  margin-bottom: 0; /* Reset margin from global h1/h2 */
+  line-height: 1.3;
+}
+
+/* Responsive site title size */
+@media (min-width: 768px) {
+  header h1 {
+    font-size: 32px; /* Desktop H2 size */
+  }
 }
 
 nav {
-  margin-top: calc(var(--spacing-base) * 2);
+  margin-top: 0; /* Reset from previous styles */
 }
 
-nav a {
-  color: var(--color-accent);
+.suggest-spot-btn {
+  font-family: 'Inter', sans-serif;
+  font-weight: 600; /* SemiBold */
+  background-color: var(--sunset-orange);
+  color: var(--paper-white) !important; /* Important to override potential global 'a' tag color */
+  padding: 10px 20px;
+  border-radius: 6px;
   text-decoration: none;
-  font-size: 18px;
+  transition: background-color 0.2s ease-in-out;
 }
 
-nav a:hover {
-  text-decoration: underline;
+.suggest-spot-btn:hover {
+  background-color: #D06B12; /* Darker Sunset Orange */
+  text-decoration: none;
+}
+
+.suggest-spot-btn:focus {
+  outline: 2px solid var(--stoked-blue);
+  outline-offset: 2px;
+  background-color: #D06B12; /* Consistent with hover */
+}
+
+/* Desktop button padding */
+@media (min-width: 768px) {
+  .suggest-spot-btn {
+    padding: 12px 24px;
+  }
 }
 
 main {
@@ -77,13 +128,14 @@ main {
 }
 
 footer {
-  background-color: var(--color-neutral-element);
-  padding: calc(var(--spacing-base) * 4);
+  background-color: var(--slate-grey);
+  padding: 24px;
   text-align: center;
-  border-top: 1px solid var(--color-neutral-border);
+  border-top: 1px solid var(--line-work-grey); /* Though slate-grey might make this invisible */
   margin-top: calc(var(--spacing-base) * 6);
+  font-family: 'Inter', sans-serif;
   font-size: 14px;
-  color: var(--color-neutral-small);
+  color: var(--paper-white); /* Or #E2E8F0 as per spec note */
 }
 
 /* Search form and filters */
@@ -93,43 +145,153 @@ footer {
   flex-direction: column;
   gap: calc(var(--spacing-base) * 2);
   width: 100%;
+  background-color: var(--tinted-blue);
+  padding: 16px;
+  border-radius: 8px;
 }
 
-.search-form input[type="text"],
+.search-form .search-input-group {
+  display: flex;
+  gap: calc(var(--spacing-base) * 1);
+  width: 100%;
+}
+
+.search-form .filter-controls {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--spacing-base) * 2);
+  width: 100%;
+}
+
+.search-form .filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--spacing-base) * 0.5);
+}
+
+.search-form label {
+  font-family: 'Inter', sans-serif;
+  font-weight: 500; /* Medium */
+  color: var(--charcoal-type);
+  font-size: 14px; /* Smaller label as per typical form design */
+}
+
+.search-form input[type="search"],
 .search-form select {
   width: 100%;
+  background-color: var(--paper-white);
+  border: 1px solid var(--line-work-grey);
+  padding: 10px 12px;
+  border-radius: 4px;
+  font-family: 'Inter', sans-serif;
+  font-size: 16px; /* Body text size */
+  color: var(--charcoal-type);
+}
+
+.search-form input[type="search"]:focus,
+.search-form select:focus {
+  outline: none;
+  border-color: var(--stoked-blue);
+  box-shadow: 0 0 0 2px var(--golden-hour-yellow); /* Focus outline style from spec */
+}
+
+.search-form .action-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--spacing-base) * 1.5);
+  margin-top: calc(var(--spacing-base) * 1);
+}
+
+/* Button Styles from Design Spec */
+.btn {
+  font-family: 'Inter', sans-serif;
+  font-weight: 600; /* SemiBold */
+  padding: 10px 20px;
+  border-radius: 6px;
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+  font-size: 16px; /* Base button font size */
+}
+
+.btn-primary {
+  background-color: var(--stoked-blue);
+  color: var(--paper-white);
+}
+
+.btn-primary:hover {
+  background-color: #226997; /* Darker Stoked Blue */
+}
+
+.btn-primary:focus {
+  background-color: #226997;
+  outline: 2px solid var(--golden-hour-yellow);
+  outline-offset: 2px;
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: var(--stoked-blue);
+  border: 2px solid var(--stoked-blue);
+}
+
+.btn-secondary:hover {
+  background-color: #E9F1F8; /* Light Stoked Blue tint */
+  color: var(--stoked-blue);
+}
+
+.btn-secondary:focus {
+  outline: 2px solid var(--stoked-blue);
+  outline-offset: 2px;
+  background-color: #E9F1F8;
 }
 
 @media (min-width: 768px) {
   .search-form {
     margin: calc(var(--spacing-base) * 4) 0;
     flex-direction: row;
-    align-items: center;
+    align-items: flex-end; /* Align items to bottom for varied heights */
     flex-wrap: wrap;
   }
 
-  .search-form input[type="text"] {
+  .search-form .search-input-group {
+    flex: 2; /* Allow search input to take more space */
+    min-width: 250px;
+  }
+
+  .search-form input[type="search"] {
     flex: 1;
-    min-width: 200px;
+  }
+
+  .search-form .filter-controls {
+    flex-direction: row;
+    flex: 3; /* Allow filter controls to take more space */
+    gap: calc(var(--spacing-base) * 2);
+    align-items: flex-end;
+  }
+
+  .search-form .filter-group {
+    flex: 1;
   }
 
   .search-form select {
-    width: auto;
+    width: 100%; /* Make select take full width of its group */
+  }
+  
+  .search-form .action-buttons {
+    flex-direction: row;
+    gap: calc(var(--spacing-base) * 1.5);
+    margin-top: 0; /* Reset margin */
+    align-items: flex-end; /* Align with other form elements */
+  }
+
+  .btn {
+    padding: 12px 24px; /* Desktop padding */
   }
 }
 
-.search-form input[type="text"],
-.search-form select {
-  padding: calc(var(--spacing-base) * 1.5) calc(var(--spacing-base) * 2);
-  font-size: 18px;
-  font-family: 'Rubik', sans-serif;
-  border: 1px solid var(--color-neutral-border);
-  border-radius: var(--spacing-base);
-  background-color: var(--color-neutral-element);
-  color: var(--color-primary-text);
-}
-
-.search-form input[type="text"] {
+.search-form input[type="text"] { /* Keep old selector for now */
   flex: 1;
 }
 
@@ -137,44 +299,58 @@ footer {
   min-width: 150px;
 }
 
-.search-form input[type="text"]:focus,
-.search-form select:focus {
-  outline: none;
-  border-color: var(--color-accent);
-}
-
-.search-form button {
-  padding: calc(var(--spacing-base) * 1.5) calc(var(--spacing-base) * 2);
-  font-size: 18px;
-  font-family: 'Rubik', sans-serif;
-  background-color: var(--color-primary-text);
-  color: var(--color-neutral-element);
-  border: none;
-  border-radius: var(--spacing-base);
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.search-form button:hover {
-  background-color: #000000;
-}
-
-.clear-search {
-  color: var(--color-neutral-small);
-  text-decoration: none;
-  font-size: 14px;
-}
-
-.clear-search:hover {
-  text-decoration: underline;
-}
-
 /* Typography */
-h2 {
-  font-size: 24px;
-  font-weight: 600;
-  color: var(--color-primary-text);
-  margin-bottom: calc(var(--spacing-base) * 2);
+h1, .h1 {
+  font-family: 'League Spartan', sans-serif;
+  font-weight: 700; /* Bold */
+  color: var(--charcoal-type);
+  font-size: 30px; /* Mobile Base */
+  margin-bottom: calc(var(--spacing-base) * 3); /* ~24px */
+  line-height: 1.4;
+}
+
+h2, .h2 {
+  font-family: 'League Spartan', sans-serif;
+  font-weight: 700; /* Bold */
+  color: var(--charcoal-type);
+  font-size: 24px; /* Mobile Base */
+  margin-bottom: calc(var(--spacing-base) * 2.5); /* ~20px */
+  line-height: 1.3;
+}
+
+h3, .h3 {
+  font-family: 'Roboto Slab', sans-serif;
+  font-weight: 400; /* Regular */
+  color: var(--charcoal-type);
+  font-size: 20px; /* Mobile Base */
+  margin-bottom: calc(var(--spacing-base) * 2); /* ~16px */
+  line-height: 1.4;
+}
+
+h4, .h4 {
+  font-family: 'Roboto Slab', sans-serif;
+  font-weight: 400; /* Regular */
+  color: var(--charcoal-type);
+  font-size: 18px; /* Approx, spec is 20px/26px for H3, body is 16px */
+  margin-bottom: calc(var(--spacing-base) * 1.5); /* ~12px */
+  line-height: 1.5;
+}
+
+/* Desktop Font Sizing for Headings */
+@media (min-width: 768px) { /* Assuming 768px as a common breakpoint for 'desktop' */
+  h1, .h1 {
+    font-size: 42px;
+  }
+  h2, .h2 {
+    font-size: 32px;
+  }
+  h3, .h3 {
+    font-size: 26px;
+  }
+  h4, .h4 {
+    /* H3 is 26px on desktop, H4 could be slightly smaller or same as H3 mobile */
+    font-size: 22px; /* Adjust as needed, design spec is less clear on H4 desktop */
+  }
 }
 
 p {
@@ -189,120 +365,138 @@ p {
 
 /* Spot list */
 .spot-list {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: calc(var(--spacing-base) * 2);
-  margin-top: calc(var(--spacing-base) * 2);
-  width: 100%;
-}
-
-@media (min-width: 640px) {
-  .spot-list {
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: calc(var(--spacing-base) * 4);
-    margin-top: calc(var(--spacing-base) * 4);
-  }
+  display: flex; /* Changed from grid */
+  flex-direction: column; /* Stack items vertically */
+  gap: var(--spacing-large); /* 24px - this will act as margin-bottom for items */
+  padding: var(--spacing-large) 0; /* Add some padding around the list */
 }
 
 .spot-card {
-  background-color: var(--color-neutral-element);
+  background-color: var(--paper-white);
   border: 1px solid var(--color-neutral-border);
-  border-radius: var(--spacing-base);
-  overflow: hidden;
-  transition: all 0.2s;
-}
-
-.spot-card:hover {
-  background-color: var(--color-neutral-bg);
-  transform: translateY(-4px);
-}
-
-.spot-content {
-  padding: calc(var(--spacing-base) * 3);
-}
-
-.spot-card h2 {
-  font-size: 24px;
-  font-weight: 600;
-  margin-bottom: var(--spacing-base);
-}
-
-.spot-card .neighborhood {
-  font-size: 14px;
-  color: var(--color-neutral-small);
-  margin-bottom: calc(var(--spacing-base) * 2);
-}
-
-.spot-details {
+  border-radius: var(--border-radius-large); /* 12px */
+  padding: var(--spacing-large); /* 24px */
   display: flex;
-  flex-wrap: wrap;
-  gap: var(--spacing-base);
-  margin-bottom: calc(var(--spacing-base) * 2);
+  flex-direction: column;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05); /* Subtle shadow */
 }
 
-.spot-details .detail {
-  display: inline-flex;
+.spot-card .spot-image {
+  width: 100%;
+  height: 200px; /* Fixed height for images */
+  object-fit: cover;
+  border-radius: var(--border-radius-medium); /* 8px, slightly smaller than card */
+  margin-bottom: var(--spacing-medium); /* 16px */
+}
+
+.spot-card .spot-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-small); /* 8px between main content elements */
+  flex-grow: 1; /* Allows button to be pushed to bottom */
+}
+
+.spot-card .spot-name {
+  font-family: 'Roboto Slab', serif;
+  font-weight: 700; /* Bold */
+  font-size: var(--font-size-h3); /* 24px (ensure this is defined or use a px value) */
+  color: var(--charcoal-type);
+  margin: 0 0 var(--spacing-x-small) 0; /* 4px bottom margin */
+}
+
+.spot-card .spot-address-neighborhood {
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  color: var(--slate-grey);
+  margin-bottom: var(--spacing-small); /* 8px */
+}
+
+.spot-card .spot-address-neighborhood .separator {
+  margin: 0 0.5em;
+}
+
+.spot-card .at-a-glance {
+  background-color: var(--tinted-blue); /* #F0F5FA */
+  padding: var(--spacing-medium); /* 16px */
+  border-radius: var(--border-radius-medium); /* 8px */
+  margin-bottom: var(--spacing-small); /* 8px */
+}
+
+.spot-card .at-a-glance ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-small); /* 8px */
+}
+
+.spot-card .at-a-glance li {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  color: var(--charcoal-type);
+  display: flex;
   align-items: center;
-  gap: var(--spacing-base);
-  padding: calc(var(--spacing-base) * 0.5) calc(var(--spacing-base));
-  border-radius: 999px;
-  font-size: 14px;
 }
 
-.spot-details .detail.wifi-excellent,
-.spot-details .detail.food-yes,
-.spot-details .detail.crowd-quiet {
-  background-color: var(--color-excellent);
-  color: var(--color-primary-text);
+.spot-card .at-a-glance strong {
+  font-weight: 600; /* SemiBold */
+  margin-right: 0.5em;
+  display: inline-flex; 
+  align-items: center;
 }
 
-.spot-details .detail.wifi-good,
-.spot-details .detail.crowd-moderate {
-  background-color: var(--color-good);
-  color: var(--color-primary-text);
+.spot-card .at-a-glance .icon {
+  margin-right: 0.5em; /* Space between icon and text like 'WiFi:' */
+  color: var(--slate-grey); /* Or a more specific icon color */
+  flex-shrink: 0; /* Prevent icon from shrinking */
 }
 
-.spot-details .detail.wifi-fair,
-.spot-details .detail.crowd-busy {
-  background-color: var(--color-fair);
-  color: var(--color-primary-text);
+.spot-card .at-a-glance .notes {
+  font-style: italic;
+  color: var(--slate-grey);
+  font-size: 0.9em;
+  margin-left: 0.4em;
 }
 
-.spot-details .detail.wifi-poor,
-.spot-details .detail.food-no {
-  background-color: var(--color-poor);
-  color: var(--color-primary-text);
+.spot-card .our-take {
+  margin-top: var(--spacing-small); /* 8px, give some space from At a Glance */
+  margin-bottom: var(--spacing-medium); /* 16px */
 }
 
-.spot-details .detail.wifi-unknown,
-.spot-details .detail.crowd-unknown {
-  background-color: var(--color-unknown);
-  color: var(--color-neutral-element);
+.spot-card .our-take-heading {
+  font-family: 'Roboto Slab', serif;
+  font-weight: 700; /* Bold */
+  font-size: 18px; 
+  color: var(--charcoal-type);
+  margin: 0 0 var(--spacing-x-small) 0; /* 4px bottom margin */
 }
 
-.view-details {
-  display: inline-block;
-  color: var(--color-accent);
-  text-decoration: none;
-  font-size: 14px;
-  font-weight: 500;
+.spot-card .our-take-text {
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  color: var(--charcoal-type);
+  line-height: 1.6;
 }
 
-.view-details:hover {
-  text-decoration: underline;
-}
-/* Spot Details */
-.detail span {
-  display: inline-block;
-  min-width: 60px;
+.spot-card .view-details-btn {
+  /* .btn and .btn-primary styles should cover this */
+  margin-top: auto; /* Pushes button to the bottom of the card */
+  align-self: flex-start; /* Align button to the left if card content doesn't fill width */
 }
 
-.detail {
-  background-color: #f8f9fa;
-  padding: 0.25rem 0.5rem;
-  border-radius: 4px;
-  margin-right: 0.5rem;
-  display: inline-block;
+/* No Results Message */
+.no-results {
+  font-family: 'Inter', sans-serif;
+  color: var(--charcoal-type);
+  text-align: center;
+  padding: var(--spacing-large) 0; /* 24px */
+  font-size: 18px;
 }
 
+/* Utility classes (if not already present) */
+.text-center { text-align: center; }
 
+
+
+/* End of styles */

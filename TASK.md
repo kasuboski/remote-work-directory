@@ -1,0 +1,71 @@
+# Design Update Task List
+
+This document tracks the progress of updating the website design based on `specs/design.md`.
+
+## Checklist
+
+- [x] Read and understand `specs/design.md`
+- [x] **Global Styles & Setup**
+    - [x] Define CSS custom properties for the new color palette (Super Stoked System - Colors).
+    - [x] Set main background color to `Paper White` (#FDFBF4).
+    - [x] Import and set up Google Fonts: `League Spartan`, `Roboto Slab`, `Inter`.
+    - [x] Define base body typography (font, color, line height) using `Inter`.
+    - [x] Define global heading styles (H1-H4) as per typography specs.
+- [ ] **Shared Components (`Layout.tsx`)**
+    - [x] **Header:**
+        - [x] Apply `Paper White` background & `Line Work Grey` bottom border.
+        - [x] Set correct padding.
+        - [x] Style Site Title ("Austin Remote Work Spot Finder") with `League Spartan`, `Stoked Blue`, and responsive sizing.
+        - [x] Style "Suggest a Spot" link/button as Special CTA Button (`Sunset Orange` bg, `Paper White` text).
+    - [x] **Footer:**
+        - [x] Apply `Slate Grey` background & `Paper White` (or light grey) text.
+        - [x] Set correct font, size, padding, and content.
+- [ ] **Homepage: Spot Listing View (`/`)**
+    - [ ] Implement Search & Filter Section styling. (In Progress)
+    - [ ] Style Individual Spot Entries (Guidebook Style). (In Progress)
+        - [x] Modify `SpotCard.tsx` structure (add props for address, description, notes, power; change to `<article>`).
+        - [x] Update `src/index.tsx` to pass new props to `SpotCard`.
+        - [x] Create `PowerPlugIcon.tsx`.
+        - [x] Spot Name (`Roboto Slab`). (CSS Added)
+        - [x] Address & Neighborhood (`Inter`, `Slate Grey`). (CSS Added)
+        - [x] "At a Glance" Box (`Utility Background`, typography). (CSS Added)
+        - [x] "Our Take" Section (Heading, Text). (CSS Added)
+        - [x] Optional Thumbnail Photo styling. (CSS Added)
+        - [x] "Full Spot Profile" Link (Primary Button style). (CSS Added)
+        - [x] Correct `.spot-list` to be single-column, stacked layout. (CSS Updated)
+    - [x] Style "No Spots Found" message. (CSS Added)
+    - [ ] **Note:** The following fields, used by `SpotCard.tsx` and `SpotDetail.tsx`, are present in `convex/schema.ts`: `address`, `wifi_notes`, `food_notes`, `crowd_notes`, `power_outlets` (referred to as Power Availability in design), `description_admin`. Ensure data is populated for these fields in your Convex backend for full component rendering. Run `direnv exec . npx convex dev --once` after any manual data seeding or if schema was changed.
+- [ ] **Spot Detail Page (`/spots/:slug`)**
+    - [x] Review existing `SpotDetail.tsx` and `SpotDetailPage` in `src/index.tsx`. (In Progress)
+    - [x] Style "← All Spots" Link. (CSS Added)
+    - [x] Style Spot Name (H1, `League Spartan`). (CSS Added)
+    - [x] Style Main Photo. (CSS Added)
+    - [x] Style "At a Glance" (detailed version). (CSS Added, Icons Added to JSX)
+    - [x] Style "Our Full Review" section. (CSS Added - covered by generic section styles)
+    - [x] Style "Logistics" section. (JSX Updated, CSS Added)
+    - [ ] Style "Vibe Check" section. (Blocked by schema changes - requires new field e.g. `vibe_check_text`)
+    - [x] Style "Good to Know" section. (JSX Updated - covered by generic section styles)
+    - [x] Style Location Map section. (Covered by generic section styles and iframe attributes)
+    - [x] Style Footer (Verification Date). (Covered by generic section styles)
+    - [ ] **Note:** The following sections from `specs/design.md` are not yet implemented due to missing fields in the Convex schema: "Cost Indication", "Best For" (under "At a Glance"), "Parking", "Public Transit" (under "Logistics"), and "Vibe Check". These require schema updates to `spots` table in `convex/schema.ts`.
+
+- [ ] **Suggest a Spot Page (`/suggest`)**
+    - [x] Create `SuggestSpotPage.tsx` component. (File Created)
+    - [x] Add route for `/suggest` in `src/index.tsx`. (Route Added)
+    - [x] Style page title. (CSS Added)
+    - [x] Style form elements (labels, inputs, textareas) according to Forms spec. (CSS Added)
+    - [x] Style submit button (Primary Button). (CSS Added - uses existing global style)
+- [ ] **General UI Elements**
+    - [ ] Ensure all buttons (Primary, Secondary, Special CTA) match spec across the site.
+    - [ ] Ensure all links match spec.
+    - [ ] Ensure form styling is consistent.
+    - [ ] Implement icon styles and ensure accessibility.
+- [ ] **Accessibility Review**
+    - [ ] Check color contrast across all elements.
+    - [ ] Verify keyboard navigation.
+    - [ ] Confirm focus states are clear.
+    - [ ] Review semantic HTML usage.
+- [ ] **Playwright Visual Checks (Iterative)**
+    - [ ] Regularly check visual appearance of components and pages using Playwright throughout the process.
+- [ ] **Final Review**
+    - [ ] Thoroughly review all pages against `specs/design.md`.

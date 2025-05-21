@@ -1,0 +1,131 @@
+/* ============================================= */
+/* Suggest a Spot Page Specific Styles ....... */
+/* ============================================= */
+
+.suggest-spot-page .page-header h1 {
+  font-family: var(--font-primary-headings); /* League Spartan */
+  color: var(--charcoal-type);
+  font-weight: 700; /* Bold */
+  /* Sizing will be inherited from global H1 styles, or adjust if needed */
+  margin-bottom: var(--space-md); /* 16px */
+}
+
+.suggest-spot-page .intro-text {
+  font-family: var(--font-body);
+  color: var(--charcoal-type);
+  line-height: 1.6;
+  margin-bottom: var(--space-lg); /* 24px */
+  max-width: 70ch; /* Improve readability */
+}
+
+.suggest-form {
+  max-width: 700px; /* Limit form width for better layout */
+  margin-bottom: var(--space-xl);
+}
+
+.suggest-form .form-group {
+  margin-bottom: var(--spacing-large);
+}
+
+.suggest-form label {
+  display: block;
+  font-family: var(--font-body);
+  font-weight: 600;
+  color: var(--charcoal-type);
+  margin-top: var(--spacing-medium);
+  margin-bottom: var(--spacing-small);
+  font-size: 0.95rem;
+}
+
+/* Optional fields style */
+.suggest-form label .optional {
+  color: var(--line-work-grey);
+  font-weight: 400;
+  font-size: 0.9rem;
+  margin-left: var(--spacing-x-small);
+}
+
+/* Add some spacing between form groups for better visual hierarchy */
+.suggest-form .form-group + .form-group {
+  margin-top: var(--spacing-medium);
+}
+
+.suggest-form input[type="text"],
+.suggest-form input[type="email"],
+.suggest-form textarea {
+  width: 100%;
+  padding: 10px 12px; /* Match design spec */
+  font-family: var(--font-body); /* Inter */
+  font-size: 1rem; /* 16px */
+  color: var(--charcoal-type);
+  background-color: var(--paper-white);
+  border: 1px solid var(--line-work-grey);
+  border-radius: 4px; /* Match design spec */
+  box-sizing: border-box;
+  line-height: 1.5;
+  transition: all 0.2s ease-in-out;
+}
+
+.suggest-form input[type="text"]:hover,
+.suggest-form input[type="email"]:hover,
+.suggest-form textarea:hover {
+  border-color: var(--stoked-blue);
+}
+
+.suggest-form input[type="text"]:focus,
+.suggest-form input[type="email"]:focus,
+.suggest-form textarea:focus {
+  outline: none;
+  border: 2px solid var(--stoked-blue); /* Match design spec */
+  background-color: var(--paper-white);
+}
+
+.suggest-form textarea {
+  min-height: 120px; /* Increased from 80px */
+  resize: vertical;
+  padding: var(--spacing-medium); /* Consistent padding for multiline */
+}
+
+.suggest-form fieldset {
+  border: none;
+  border-top: 1px solid var(--line-work-grey);
+  padding: var(--spacing-large) 0 var(--spacing-medium);
+  margin: var(--spacing-large) 0;
+}
+
+.suggest-form legend {
+  font-family: var(--font-secondary-headings); /* Roboto Slab */
+  font-weight: 700; /* Bold */
+  color: var(--charcoal-type);
+  padding: 0;
+  margin-bottom: var(--spacing-small);
+  font-size: 1.1rem;
+}
+
+/* Button styles */
+.suggest-form .btn-primary {
+  margin-top: var(--spacing-medium);
+}
+
+/* Textarea styles */
+.suggest-form textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+/* Ensure all form groups have consistent spacing */
+.suggest-form .form-group:not(:last-child) {
+  margin-bottom: var(--spacing-large);
+}
+
+/* Fieldset spacing */
+.suggest-form fieldset + fieldset {
+  margin-top: var(--spacing-large);
+}
+
+/* Optional text styling */
+.suggest-form .optional-text {
+  font-size: 0.9rem;
+  color: var(--slate-grey);
+  margin-left: var(--spacing-x-small);
+}

@@ -1,9 +1,24 @@
+/* Spot Detail Page Styles */
+.back-link {
+  display: inline-block;
+  font-family: 'Inter', sans-serif;
+  color: var(--slate-grey);
+  text-decoration: none;
+  margin-bottom: var(--spacing-large); /* 24px */
+  font-size: 16px;
+}
+
+.back-link:hover {
+  color: var(--charcoal-type);
+  text-decoration: underline;
+}
+
 .spot-detail {
   max-width: 1200px;
   margin: 0 auto;
   padding: calc(var(--spacing-base) * 4);
-  background-color: var(--color-neutral-element);
   border-radius: var(--spacing-base);
+  padding-bottom: var(--spacing-large); 
 }
 
 .spot-detail header {
@@ -11,6 +26,43 @@
   background-color: transparent;
   padding: 0;
   border: none;
+}
+
+.spot-detail section p,
+.spot-detail section a {
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  color: var(--charcoal-type);
+  line-height: 1.6;
+}
+
+.spot-detail .contact-info .contact-item {
+  margin-bottom: var(--spacing-small); /* 8px */
+}
+
+.spot-detail .contact-info .contact-item strong {
+  font-weight: 600; /* SemiBold as per typical label style */
+  color: var(--charcoal-type);
+  margin-right: var(--spacing-x-small); /* 4px */
+}
+
+.spot-detail .contact-info .links a {
+  display: block;
+  margin-bottom: var(--spacing-small);
+  color: var(--color-accent); /* Use accent for links */
+  text-decoration: none;
+}
+
+.spot-detail .contact-info .links a:hover {
+  text-decoration: underline;
+}
+
+.spot-detail footer p.verification-date {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  color: var(--slate-grey);
+  font-style: italic;
+  text-align: center;
 }
 
 .spot-detail h1 {
@@ -77,37 +129,6 @@
   gap: var(--spacing-base);
   padding: calc(var(--spacing-base) * 0.5) calc(var(--spacing-base));
   border-radius: 999px;
-}
-
-.spot-detail .detail-item .quality.excellent,
-.spot-detail .detail-item .availability.yes,
-.spot-detail .detail-item .crowd.quiet {
-  background-color: var(--color-excellent);
-  color: var(--color-neutral-element);
-}
-
-.spot-detail .detail-item .quality.good,
-.spot-detail .detail-item .crowd.moderate {
-  background-color: var(--color-good);
-  color: var(--color-primary-text);
-}
-
-.spot-detail .detail-item .quality.fair,
-.spot-detail .detail-item .crowd.busy {
-  background-color: var(--color-fair);
-  color: var(--color-primary-text);
-}
-
-.spot-detail .detail-item .quality.poor,
-.spot-detail .detail-item .availability.no {
-  background-color: var(--color-poor);
-  color: var(--color-neutral-element);
-}
-
-.spot-detail .detail-item .quality.unknown,
-.spot-detail .detail-item .crowd.unknown {
-  background-color: var(--color-unknown);
-  color: var(--color-neutral-element);
 }
 
 .spot-detail .detail-item .notes {

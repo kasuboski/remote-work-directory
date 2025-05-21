@@ -1,5 +1,9 @@
 import type { FC } from 'hono/jsx'
 import type { Doc } from '../../convex/_generated/dataModel'
+import WifiIcon from './icons/WifiIcon'
+import UtensilsIcon from './icons/UtensilsIcon'
+import UsersIcon from './icons/UsersIcon'
+import PowerPlugIcon from './icons/PowerPlugIcon'
 
 interface SpotDetailProps {
   spot: Doc<'spots'>
@@ -72,32 +76,32 @@ const SpotDetail: FC<SpotDetailProps> = ({ spot }) => {
 
       <section class="details-grid">
         {(wifi_quality !== 'Unknown' || wifi_notes) && (
-          <div class="detail-item">
-            <h3>WiFi</h3>
+          <div class="detail-item wifi-details">
+            <h3><span class="icon"><WifiIcon size={20} /></span>WiFi</h3>
             <p class="quality">{wifi_quality}</p>
             {wifi_notes && <p class="notes">{wifi_notes}</p>}
           </div>
         )}
 
         {(food_available || food_notes) && (
-          <div class="detail-item">
-            <h3>Food</h3>
+          <div class="detail-item food-details">
+            <h3><span class="icon"><UtensilsIcon size={20} /></span>Food</h3>
             <p class="availability">{food_available ? 'Available' : 'Not Available'}</p>
             {food_notes && <p class="notes">{food_notes}</p>}
           </div>
         )}
 
         {(crowd_level_typical !== 'Unknown' || crowd_notes) && (
-          <div class="detail-item">
-            <h3>Typical Crowd Level</h3>
+          <div class="detail-item crowd-details">
+            <h3><span class="icon"><UsersIcon size={20} /></span>Typical Crowd Level</h3>
             <p class="crowd">{crowd_level_typical}</p>
             {crowd_notes && <p class="notes">{crowd_notes}</p>}
           </div>
         )}
 
         {power_outlets !== 'Unknown' && (
-          <div class="detail-item">
-            <h3>Power Outlets</h3>
+          <div class="detail-item power-details">
+            <h3><span class="icon"><PowerPlugIcon size={20} /></span>Power Outlets</h3>
             <p>{power_outlets}</p>
           </div>
         )}
@@ -105,40 +109,35 @@ const SpotDetail: FC<SpotDetailProps> = ({ spot }) => {
 
       {other_amenities_text && other_amenities_text.trim() && (
         <section class="amenities">
-          <h3>Other Amenities</h3>
+          <h3>Good to Know</h3>
           <p>{other_amenities_text}</p>
         </section>
       )}
 
       {description_admin && description_admin.trim() && (
         <section class="description">
-          <h3>About this Location</h3>
+          <h3>Our Full Review</h3>
           <p>{description_admin}</p>
         </section>
       )}
 
       {(hours_of_operation_text || website_url || phone_number) && (
         <section class="contact-info">
+          <h3>Logistics</h3>
           {hours_of_operation_text && (
-            <div class="hours">
-              <h3>Hours of Operation</h3>
-              <p>{hours_of_operation_text}</p>
-            </div>
+            <p class="contact-item">
+              <strong>Hours:</strong> {hours_of_operation_text}
+            </p>
           )}
-
-          {(website_url || phone_number) && (
-            <div class="links">
-              {website_url && (
-                <a href={website_url} target="_blank" rel="noopener noreferrer">
-                  Visit Website →
-                </a>
-              )}
-              {phone_number && (
-                <a href={`tel:${phone_number}`} class="phone">
-                  {phone_number}
-                </a>
-              )}
-            </div>
+          {website_url && (
+            <p class="contact-item">
+              <strong>Website:</strong> <a href={website_url} target="_blank" rel="noopener noreferrer">Visit Website →</a>
+            </p>
+          )}
+          {phone_number && (
+            <p class="contact-item">
+              <strong>Phone:</strong> <a href={`tel:${phone_number}`} class="phone">{phone_number}</a>
+            </p>
           )}
         </section>
       )}

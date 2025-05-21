@@ -5,6 +5,7 @@ import { ConvexHttpClient } from 'convex/browser'
 import Layout from './components/Layout'
 import SpotCard from './components/SpotCard'
 import SpotDetail from './components/SpotDetail'
+import SuggestSpotPage from './components/SuggestSpotPage'
 import type { Doc } from '../convex/_generated/dataModel'
 import { api } from '../convex/_generated/api'
 
@@ -49,7 +50,7 @@ const Home: FC<HomeProps> = ({ spots, searchParam, wifiQualityParam, foodAvailab
           <option value="true" selected={foodAvailableParam === 'true'}>Yes</option>
           <option value="false" selected={foodAvailableParam === 'false'}>No</option>
         </select>
-        <button type="submit">Search</button>
+        <button class="btn btn-primary" type="submit">Search</button>
         {(searchParam || wifiQualityParam || foodAvailableParam || crowdLevelParam) && (
           <a href="/" class="clear-search">Clear Filters</a>
         )}
@@ -63,11 +64,17 @@ const Home: FC<HomeProps> = ({ spots, searchParam, wifiQualityParam, foodAvailab
             key={spot._id}
             slug={spot.slug}
             name={spot.name}
+            address={spot.address}
             neighborhood={spot.neighborhood}
             mainPhotoUrl={spot.main_photo_url}
             wifiQuality={spot.wifi_quality}
+            wifiNotes={spot.wifi_notes}
             foodAvailable={spot.food_available}
+            foodNotes={spot.food_notes}
             crowdLevelTypical={spot.crowd_level_typical}
+            crowdNotes={spot.crowd_notes}
+            powerAvailability={spot.power_outlets}
+            descriptionAdmin={spot.description_admin}
           />
         ))}
       </div>
@@ -136,6 +143,15 @@ app.get('/spots/:slug', async (c) => {
   const client = new ConvexHttpClient(CONVEX_URL)
   const spot = await client.query(api.spots.getSpotBySlug, { slug })
   return c.render(<SpotDetailPage spot={spot} />)
+})
+
+// Route for Suggest a Spot page
+app.get('/suggest', (c) => {
+  return c.render(
+    <Layout title="Suggest a New Spot | Austin Remote Work Spot Finder" currentPath="/suggest">
+      <SuggestSpotPage />
+    </Layout>
+  )
 })
 
 export default app
