@@ -14,8 +14,6 @@ const Layout: FC<LayoutProps> = ({ children, title, currentPath }) => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>{pageTitle}</title>
         <link rel="stylesheet" href="/static/styles.css" />
-        <link rel="stylesheet" href="/static/SpotDetail.css" />
-        <link rel="stylesheet" href="/static/SuggestSpot.css" />
       </head>
       <body>
         <div class="header">
@@ -39,6 +37,8 @@ const Layout: FC<LayoutProps> = ({ children, title, currentPath }) => {
             </div>
           </div>
         </footer>
+        <link rel="stylesheet" href="/static/SpotDetail.css" />
+        <link rel="stylesheet" href="/static/SuggestSpot.css" />
       </body>
     </html>
   )
