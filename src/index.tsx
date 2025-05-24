@@ -159,9 +159,12 @@ app.get('/', async (c) => {
 
 interface SpotDetailPageProps {
   spot: Doc<'spots'> | null
+  env: {
+    GOOGLE_MAPS_API_KEY: string
+  }
 }
 
-const SpotDetailPage: FC<SpotDetailPageProps> = ({ spot }) => {
+const SpotDetailPage: FC<SpotDetailPageProps> = ({ spot, env }) => {
   if (!spot) {
     return (
       <Layout>
@@ -173,7 +176,7 @@ const SpotDetailPage: FC<SpotDetailPageProps> = ({ spot }) => {
 
   return (
     <Layout>
-      <SpotDetail spot={spot} />
+      <SpotDetail spot={spot} env={env} />
     </Layout>
   )
 }
@@ -183,7 +186,7 @@ app.get('/spots/:slug', async (c) => {
   const CONVEX_URL = c.env.CONVEX_URL
   const client = new ConvexHttpClient(CONVEX_URL)
   const spot = await client.query(api.spots.getSpotBySlug, { slug })
-  return c.render(<SpotDetailPage spot={spot} />)
+  return c.render(<SpotDetailPage spot={spot} env={{ GOOGLE_MAPS_API_KEY: c.env.GOOGLE_MAPS_API_KEY }} />)
 })
 
 // Route for Suggest a Spot page

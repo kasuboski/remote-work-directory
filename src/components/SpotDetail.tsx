@@ -7,16 +7,17 @@ import PowerPlugIcon from './icons/PowerPlugIcon'
 
 interface SpotDetailProps {
   spot: Doc<'spots'>
+  env: {
+    GOOGLE_MAPS_API_KEY: string
+  }
 }
 
-const SpotDetail: FC<SpotDetailProps> = ({ spot }) => {
+const SpotDetail: FC<SpotDetailProps> = ({ spot, env }) => {
   const {
     name,
     address,
     neighborhood,
-    map_iframe_url,
-    latitude,
-    longitude,
+    google_places_id,
     wifi_quality,
     wifi_notes,
     food_available,
@@ -33,22 +34,19 @@ const SpotDetail: FC<SpotDetailProps> = ({ spot }) => {
     date_last_verified_admin,
   } = spot
 
-  const getMapLink = () => {
-    if (map_iframe_url) {
-      return <iframe src={map_iframe_url} loading="lazy" />
-    }
-    if (latitude && longitude) {
-      return (
-        <a
-          href={`https://www.google.com/maps?q=${latitude},${longitude}`}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          View on Google Maps →
-        </a>
-      )
-    }
-    return <p>Map not available</p>
+  const getMapEmbed = () => {
+    if (!google_places_id) return undefined
+    
+    return (
+      <iframe
+        width="600"
+        height="450"
+        style={{ border: 0 }}
+        loading="lazy"
+        allowFullScreen
+        src={`https://www.google.com/maps/embed/v1/place?q=place_id:${google_places_id}&key=${env.GOOGLE_MAPS_API_KEY}`}
+      />
+    )
   }
 
   const formatDate = (dateStr: string) => {
@@ -75,7 +73,7 @@ const SpotDetail: FC<SpotDetailProps> = ({ spot }) => {
             <img src={main_photo_url} alt={`${name} - Remote Work Location`} class="main-image" />
           )}
 
-          <section class="map-section">{getMapLink()}</section>
+          <section class="map-section">{getMapEmbed()}</section>
 
           <section class="details-grid">
             {(wifi_quality !== 'Unknown' || wifi_notes) && (
