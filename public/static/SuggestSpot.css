@@ -13,10 +13,12 @@
 
 .suggest-spot-page .page-header h1 {
   font-family: 'Bebas Neue', sans-serif;
+  font-size: 3.5rem;
   color: var(--primary-blue);
-  font-size: 2.5rem;
-  text-shadow: 1px 1px 0 var(--retro-yellow), 2px 2px 0 var(--dark-brown);
+  text-transform: uppercase;
+  letter-spacing: 2px;
   margin-bottom: var(--spacing-base);
+  text-shadow: 2px 2px 0 var(--retro-yellow), 3px 3px 0 var(--dark-brown);
 }
 
 .suggest-spot-page .intro-text {

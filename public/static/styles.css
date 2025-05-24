@@ -98,9 +98,8 @@ body {
     font-family: 'Bebas Neue', sans-serif;
     font-size: 1.8rem;
     color: var(--primary-blue);
-    text-shadow: 1px 1px 0 var(--retro-yellow), 2px 2px 0 var(--dark-brown);
     margin-bottom: 1.5rem;
-    letter-spacing: 2px;
+    letter-spacing: 1px;
     text-transform: uppercase;
 }
 
@@ -253,7 +252,8 @@ body {
     text-align: left;
     font-family: 'Bebas Neue', sans-serif;
     font-size: 1.1rem;
-    letter-spacing: 1px;
+    font-weight: lighter;
+    letter-spacing: 2px;
     text-transform: uppercase;
     border-right: 2px solid var(--stripe-blue);
 }
