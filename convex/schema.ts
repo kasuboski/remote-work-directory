@@ -8,9 +8,6 @@ export default defineSchema({
     address: v.string(),
     neighborhood: v.optional(v.string()),
     google_places_id: v.optional(v.string()),
-    map_iframe_url: v.optional(v.string()),
-    latitude: v.optional(v.number()),
-    longitude: v.optional(v.number()),
     wifi_quality: v.union(
       v.literal("Excellent"),
       v.literal("Good"),
