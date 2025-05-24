@@ -6,7 +6,7 @@ interface LayoutProps extends PropsWithChildren {
 }
 
 const Layout: FC<LayoutProps> = ({ children, title, currentPath }) => {
-  const pageTitle = title || 'Austin Remote Work Spot Finder';
+  const pageTitle = title || 'Austin Remote Work Spots';
   return (
     <html lang="en">
       <head>
@@ -18,18 +18,26 @@ const Layout: FC<LayoutProps> = ({ children, title, currentPath }) => {
         <link rel="stylesheet" href="/static/SuggestSpot.css" />
       </head>
       <body>
-        <header>
-          <a href="/" className="site-title-link">
-            <h1>Austin Remote Work Spot Finder</h1>
-          </a>
-          <nav>
-            {/* Example of using currentPath for active link styling */}
-            <a href="/suggest" className={`suggest-spot-btn ${currentPath === '/suggest' ? 'active' : ''}`}>Suggest a Spot</a>
-          </nav>
-        </header>
+        <div class="header">
+          <div class="container header-content">
+            <div class="logo"><a href="/" style="text-decoration: none; color: inherit;">Austin Remote Work Spots</a></div>
+            <div class="tagline">Find the perfect spot to work remotely in Austin</div>
+          </div>
+        </div>
         <main>{children}</main>
-        <footer>
-          <p> {new Date().getFullYear()} Austin Remote Work Spot Finder. Happy WFH-away-from-home!</p>
+        <footer class="footer">
+          <div class="container">
+            <div class="footer-content">
+              <div class="footer-info">
+                <h3><a href="/" style="text-decoration: none; color: inherit;">Austin Remote Work Spots</a></h3>
+                <p>&copy; {new Date().getFullYear()} All rights reserved.</p>
+              </div>
+              <div class="footer-cta">
+                <p>Know a great spot we missed?</p>
+                <a href="/suggest" class={`suggest-spot-btn ${currentPath === '/suggest' ? 'active' : ''}`}>Suggest a Spot</a>
+              </div>
+            </div>
+          </div>
         </footer>
       </body>
     </html>

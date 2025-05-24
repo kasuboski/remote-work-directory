@@ -210,15 +210,14 @@ Simple, clear, outline-style icons. Consider Feather Icons or Phosphor Icons.
 *   **Purpose:** Display comprehensive information about a single remote work spot.
 *   **Layout (Mobile First, Single Column Flowing):**
     1.  Header
-    2.  "← All Spots" Link (Back to homepage)
-    3.  Spot Name (`name`) - H1, `League Spartan` (Bold), `Charcoal Type`.
-    4.  Main Photo (`main_photo_url`) - Large, responsive image. Rounded corners (`8px`). `alt` text: "Photo of [Spot Name]". `margin-top: 16px; margin-bottom: 16px;`
-    5.  Address (`address`) & Neighborhood (`neighborhood`) - `Inter` (Regular), `Charcoal Type` for address, `Slate Grey` for neighborhood. `margin-bottom: 20px;`
-    6.  Map Area - `margin-bottom: 24px;`
+    2.  Spot Name (`name`) - H1, `League Spartan` (Bold), `Charcoal Type`.
+    3.  Main Photo (`main_photo_url`) - Large, responsive image. Rounded corners (`8px`). `alt` text: "Photo of [Spot Name]". `margin-top: 16px; margin-bottom: 16px;`
+    4.  Address (`address`) & Neighborhood (`neighborhood`) - `Inter` (Regular), `Charcoal Type` for address, `Slate Grey` for neighborhood. `margin-bottom: 20px;`
+    5.  Map Area - `margin-bottom: 24px;`
         *   If `map_iframe_url`: Embed iframe, responsive. Border: `1px solid Line Work Grey`.
         *   Else if `latitude`, `longitude`: Link "View on Google Maps" (Primary Button style, or Link style with map icon).
         *   Else: "Map not available" (`Inter` (Regular), `Slate Grey`).
-    7.  **Detailed Information Section:** `margin-top: 24px`. Use clear key-value pairs or small subheadings.
+    6.  **Detailed Information Section:** `margin-top: 24px`. Use clear key-value pairs or small subheadings.
         *   Each item: Label (`Inter` SemiBold, `Charcoal Type`), Value (`Inter` Regular, `Charcoal Type`).
         *   `wifi_quality`, `wifi_notes`
         *   `food_available` (as "Yes" or "No"), `food_notes`
@@ -228,17 +227,17 @@ Simple, clear, outline-style icons. Consider Feather Icons or Phosphor Icons.
         *   `hours_of_operation_text`
         *   `website_url` (as a clickable link: "[Spot Name] Website" with external link icon)
         *   `phone_number` (as a clickable `tel:` link)
-    8.  **Admin's Description (`description_admin`) - "Our Full Take":** `margin-top: 24px`.
+    7.  **Admin's Description (`description_admin`) - "Our Full Take":** `margin-top: 24px`.
         *   Heading: "Our Full Take 📝" or "The Full Scoop" (`Roboto Slab` (Bold), H3 size, `Charcoal Type`).
         *   Text: `Inter` (Regular), `Charcoal Type`. Full description.
-    9.  **Last Verified Note:** `margin-top: 24px; margin-bottom: 32px;`
+    8.  **Last Verified Note:** `margin-top: 24px; margin-bottom: 32px;`
         *   Text: "Info last verified: [formatted `date_last_verified_admin`]."
         *   Font: `Inter` (Regular), 14px, `Slate Grey`.
-    10. Footer
+    9.  Footer
 
 ### "Suggest a Spot" Link
 
-*   **Location:** Prominently in the site Header (as a Special CTA Button) and potentially also in the Footer (as a simple link).
+*   **Location:** Prominently in the site Footer (as a Special CTA Button).
 *   **Functionality:** Links to an external Fillout form URL (provided by admin). Opens in a new tab/window.
 
 ## 4. General Styling, Responsiveness, and Accessibility (MVP Task 8)

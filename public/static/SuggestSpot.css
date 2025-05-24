@@ -2,25 +2,38 @@
 /* Suggest a Spot Page Specific Styles ....... */
 /* ============================================= */
 
+.suggest-spot-page {
+  padding: var(--spacing-x-large) 0;
+}
+
+.suggest-spot-page .page-header {
+  text-align: center;
+  margin-bottom: var(--spacing-x-large);
+}
+
 .suggest-spot-page .page-header h1 {
-  font-family: var(--font-primary-headings); /* League Spartan */
-  color: var(--charcoal-type);
-  font-weight: 700; /* Bold */
-  /* Sizing will be inherited from global H1 styles, or adjust if needed */
-  margin-bottom: var(--space-md); /* 16px */
+  font-family: 'Bebas Neue', sans-serif;
+  color: var(--primary-blue);
+  font-size: 2.5rem;
+  text-shadow: 1px 1px 0 var(--retro-yellow), 2px 2px 0 var(--dark-brown);
+  margin-bottom: var(--spacing-base);
 }
 
 .suggest-spot-page .intro-text {
-  font-family: var(--font-body);
-  color: var(--charcoal-type);
+  max-width: 700px;
+  margin: 0 auto var(--spacing-x-large);
+  text-align: center;
+  font-size: 1.1rem;
   line-height: 1.6;
-  margin-bottom: var(--space-lg); /* 24px */
-  max-width: 70ch; /* Improve readability */
 }
 
 .suggest-form {
-  max-width: 700px; /* Limit form width for better layout */
-  margin-bottom: var(--space-xl);
+  max-width: 700px;
+  margin: 0 auto;
+  background: var(--warm-white);
+  padding: var(--spacing-x-large);
+  border: 4px solid var(--primary-blue);
+  box-shadow: 4px 4px 0 var(--retro-yellow);
 }
 
 .suggest-form .form-group {
@@ -29,79 +42,81 @@
 
 .suggest-form label {
   display: block;
-  font-family: var(--font-body);
   font-weight: 600;
-  color: var(--charcoal-type);
-  margin-top: var(--spacing-medium);
-  margin-bottom: var(--spacing-small);
-  font-size: 0.95rem;
-}
-
-/* Optional fields style */
-.suggest-form label .optional {
-  color: var(--line-work-grey);
-  font-weight: 400;
-  font-size: 0.9rem;
-  margin-left: var(--spacing-x-small);
-}
-
-/* Add some spacing between form groups for better visual hierarchy */
-.suggest-form .form-group + .form-group {
-  margin-top: var(--spacing-medium);
+  color: var(--text-dark);
+  margin-bottom: var(--spacing-base);
 }
 
 .suggest-form input[type="text"],
 .suggest-form input[type="email"],
 .suggest-form textarea {
   width: 100%;
-  padding: 10px 12px; /* Match design spec */
-  font-family: var(--font-body); /* Inter */
-  font-size: 1rem; /* 16px */
-  color: var(--charcoal-type);
-  background-color: var(--paper-white);
-  border: 1px solid var(--line-work-grey);
-  border-radius: 4px; /* Match design spec */
-  box-sizing: border-box;
-  line-height: 1.5;
+  padding: 12px;
+  font-family: 'Archivo', sans-serif;
+  font-size: 1rem;
+  color: var(--text-dark);
+  background-color: var(--cream);
+  border: 2px solid var(--primary-blue);
   transition: all 0.2s ease-in-out;
 }
 
 .suggest-form input[type="text"]:hover,
 .suggest-form input[type="email"]:hover,
 .suggest-form textarea:hover {
-  border-color: var(--stoked-blue);
+  border-color: var(--bright-orange);
 }
 
 .suggest-form input[type="text"]:focus,
 .suggest-form input[type="email"]:focus,
 .suggest-form textarea:focus {
   outline: none;
-  border: 2px solid var(--stoked-blue); /* Match design spec */
-  background-color: var(--paper-white);
+  border-color: var(--bright-orange);
+  box-shadow: 0 0 0 2px var(--retro-yellow);
 }
 
 .suggest-form textarea {
-  min-height: 120px; /* Increased from 80px */
+  min-height: 120px;
   resize: vertical;
-  padding: var(--spacing-medium); /* Consistent padding for multiline */
 }
 
 .suggest-form fieldset {
   border: none;
-  border-top: 1px solid var(--line-work-grey);
-  padding: var(--spacing-large) 0 var(--spacing-medium);
-  margin: var(--spacing-large) 0;
+  border-top: 3px solid var(--retro-yellow);
+  padding: var(--spacing-large) 0;
+  margin: var(--spacing-x-large) 0;
 }
 
 .suggest-form legend {
-  font-family: var(--font-secondary-headings); /* Roboto Slab */
-  font-weight: 700; /* Bold */
-  color: var(--charcoal-type);
-  padding: 0;
-  margin-bottom: var(--spacing-small);
-  font-size: 1.1rem;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.5rem;
+  color: var(--primary-blue);
+  background: var(--warm-white);
+  padding: 0 var(--spacing-base);
+  margin-left: -var(--spacing-base);
+  text-shadow: 1px 1px 0 var(--retro-yellow);
 }
 
+.suggest-form button[type="submit"] {
+  display: block;
+  width: 100%;
+  padding: 1rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  cursor: pointer;
+  border: 4px solid var(--primary-blue);
+  background: var(--primary-blue);
+  color: var(--warm-white);
+  transition: all 0.2s ease;
+}
+
+.suggest-form button[type="submit"]:hover {
+  background: transparent;
+  border-color: var(--primary-blue);
+  color: var(--primary-blue);
+}
 /* Button styles */
 .suggest-form .btn-primary {
   margin-top: var(--spacing-medium);

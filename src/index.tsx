@@ -23,60 +23,103 @@ interface HomeProps {
   crowdLevelParam?: string
 }
 
-const Home: FC<HomeProps> = ({ spots, searchParam, wifiQualityParam, foodAvailableParam, crowdLevelParam }: HomeProps) => {
+const Home: FC<HomeProps> = ({ spots, searchParam, wifiQualityParam, foodAvailableParam, crowdLevelParam }) => {
   return (
     <Layout>
-      <h2>Remote Work Spots in Austin</h2>
-      <p>Find the perfect spot to work remotely in Austin!</p>
-      <form method="get" action="/" class="search-form">
-        <input
-          type="text"
-          name="search"
-          placeholder="Search by spot name..."
-          defaultValue={searchParam || ''}
-        />
-        <select name="wifiQuality">
-          <option value="">WiFi Quality</option>
-          <option value="Excellent" selected={wifiQualityParam === 'Excellent'}>Excellent</option>
-          <option value="Good" selected={wifiQualityParam === 'Good'}>Good</option>
-        </select>
-        <select name="crowdLevel">
-          <option value="">Crowd Level</option>
-          <option value="Quiet" selected={crowdLevelParam === 'Quiet'}>Quiet</option>
-          <option value="Moderate" selected={crowdLevelParam === 'Moderate'}>Moderate</option>
-        </select>
-        <select name="foodAvailable">
-          <option value="">Food Available</option>
-          <option value="true" selected={foodAvailableParam === 'true'}>Yes</option>
-          <option value="false" selected={foodAvailableParam === 'false'}>No</option>
-        </select>
-        <button class="btn btn-primary" type="submit">Search</button>
-        {(searchParam || wifiQualityParam || foodAvailableParam || crowdLevelParam) && (
-          <a href="/" class="clear-search">Clear Filters</a>
-        )}
-      </form>
-      {spots.length === 0 && (
-        <p class="no-results">No spots found matching your filters.</p>
-      )}
-      <div class="spot-list">
-        {spots.map((spot: Doc<'spots'>) => (
-          <SpotCard
-            key={spot._id}
-            slug={spot.slug}
-            name={spot.name}
-            address={spot.address}
-            neighborhood={spot.neighborhood}
-            mainPhotoUrl={spot.main_photo_url}
-            wifiQuality={spot.wifi_quality}
-            wifiNotes={spot.wifi_notes}
-            foodAvailable={spot.food_available}
-            foodNotes={spot.food_notes}
-            crowdLevelTypical={spot.crowd_level_typical}
-            crowdNotes={spot.crowd_notes}
-            powerAvailability={spot.power_outlets}
-            descriptionAdmin={spot.description_admin}
-          />
-        ))}
+
+      <section class="search-section">
+        <div class="search-container">
+          <div class="search-title">Search Remote Work Spots</div>
+          <form method="get" action="/" class="search-input-group">
+            <input
+              type="search"
+              name="search"
+              placeholder="Search by spot name..."
+              value={searchParam || ''}
+              class="search-input"
+            />
+            <button type="submit" class="search-btn">Search</button>
+          </form>
+        </div>
+      </section>
+      <section class="filter-bar">
+        <form method="get" action="/" class="container filter-container">
+          <input type="hidden" name="search" value={searchParam || ''} />
+          <div class="filter-group">
+            <label class="filter-label" for="wifiQuality">WiFi Quality</label>
+            <select 
+              id="wifiQuality" 
+              name="wifiQuality" 
+              class="filter-select" 
+              onchange="this.form.submit()"
+            >
+              <option value="" selected={!wifiQualityParam}>Any</option>
+              <option value="Excellent" selected={wifiQualityParam === 'Excellent'}>Excellent</option>
+              <option value="Good" selected={wifiQualityParam === 'Good'}>Good</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label class="filter-label" for="crowdLevel">Crowd Level</label>
+            <select 
+              id="crowdLevel" 
+              name="crowdLevel" 
+              class="filter-select" 
+              onchange="this.form.submit()"
+            >
+              <option value="" selected={!crowdLevelParam}>Any</option>
+              <option value="Quiet" selected={crowdLevelParam === 'Quiet'}>Quiet</option>
+              <option value="Moderate" selected={crowdLevelParam === 'Moderate'}>Moderate</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label class="filter-label" for="foodAvailable">Food Available</label>
+            <select 
+              id="foodAvailable" 
+              name="foodAvailable" 
+              class="filter-select" 
+              onchange="this.form.submit()"
+            >
+              <option value="" selected={!foodAvailableParam}>Any</option>
+              <option value="true" selected={foodAvailableParam === 'true'}>Yes</option>
+              <option value="false" selected={foodAvailableParam === 'false'}>No</option>
+            </select>
+          </div>
+          {(searchParam || wifiQualityParam || foodAvailableParam || crowdLevelParam) && (
+            <a href="/" class="clear-filters">Clear Filters</a>
+          )}
+        </form>
+      </section>
+      <div class="main-content container">
+        <div class="results-header">
+          <div class="results-count">{spots.length} Spots Found</div>
+          {(searchParam || wifiQualityParam || foodAvailableParam || crowdLevelParam) && (
+            <a href="/" class="clear-filters">Clear Filters</a>
+          )}
+        </div>
+        <table class="spots-table">
+          <thead>
+            <tr>
+              <th>Photo</th>
+              <th>Name</th>
+              <th>Neighborhood</th>
+              <th>WiFi</th>
+              <th>Food</th>
+              <th>Crowd</th>
+            </tr>
+          </thead>
+          <tbody>
+            {spots.map((spot) => (
+              <tr key={spot._id} onclick={`location.href='/spots/${spot.slug}'`}>
+                <td><img src={spot.main_photo_url || ''} alt={spot.name} class="spot-photo" /></td>
+                <td><div class="spot-name">{spot.name}</div></td>
+                <td><div class="spot-neighborhood">{spot.neighborhood}</div></td>
+                <td><span class={`indicator-badge wifi-${spot.wifi_quality.toLowerCase()}`}>{spot.wifi_quality}</span></td>
+                <td><span class={`indicator-badge food-${spot.food_available ? 'yes' : 'no'}`}>{spot.food_available ? 'Yes' : 'No'}</span></td>
+                <td><span class={`indicator-badge crowd-${spot.crowd_level_typical.toLowerCase()}`}>{spot.crowd_level_typical}</span></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </Layout>
   )
@@ -124,7 +167,6 @@ const SpotDetailPage: FC<SpotDetailPageProps> = ({ spot }) => {
       <Layout>
         <h1>Spot Not Found</h1>
         <p>Sorry, we couldn't find the spot you're looking for.</p>
-        <a href="/" class="back-link">← Back to Home</a>
       </Layout>
     )
   }
@@ -132,7 +174,6 @@ const SpotDetailPage: FC<SpotDetailPageProps> = ({ spot }) => {
   return (
     <Layout>
       <SpotDetail spot={spot} />
-      <a href="/" class="back-link">← Back to Home</a>
     </Layout>
   )
 }
