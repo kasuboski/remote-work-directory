@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls:*)",
+      "mcp__convex__status",
+      "Bash(find:*)"
+    ],
+    "deny": []
+  }
+}
