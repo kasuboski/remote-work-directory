@@ -46,4 +46,26 @@ export default defineSchema({
   .index("by_is_published", ["is_published"])
   .index("by_slug", ["slug"])
   .searchIndex("search_name", { searchField: "name" }),
+  
+  suggestions: defineTable({
+    spot_name: v.string(),
+    address: v.optional(v.string()),
+    neighborhood: v.optional(v.string()),
+    reason: v.optional(v.string()),
+    wifi_notes: v.optional(v.string()),
+    food_notes: v.optional(v.string()),
+    crowd_notes: v.optional(v.string()),
+    power_notes: v.optional(v.string()),
+    other_notes: v.optional(v.string()),
+    suggester_name: v.optional(v.string()),
+    suggester_email: v.optional(v.string()),
+    submitted_at: v.number(), // timestamp
+    status: v.union(
+      v.literal("pending"),
+      v.literal("approved"),
+      v.literal("rejected")
+    ),
+  })
+  .index("by_status", ["status"])
+  .index("by_submitted_at", ["submitted_at"]),
 });

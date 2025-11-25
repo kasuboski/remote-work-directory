@@ -143,22 +143,27 @@ const Home: FC<HomeProps> = ({
           )}
         </div>
         <table class="spots-table">
+          <caption class="sr-only">
+            {spots.length} remote work spots in Austin
+            {(searchParam ||
+              wifiQualityParam ||
+              foodAvailableParam ||
+              crowdLevelParam) &&
+              " (filtered results)"}
+          </caption>
           <thead>
             <tr>
-              <th>Photo</th>
-              <th>Name</th>
-              <th>Neighborhood</th>
-              <th>WiFi</th>
-              <th>Food</th>
-              <th>Crowd</th>
+              <th scope="col">Photo</th>
+              <th scope="col">Name</th>
+              <th scope="col">Neighborhood</th>
+              <th scope="col">WiFi</th>
+              <th scope="col">Food</th>
+              <th scope="col">Crowd</th>
             </tr>
           </thead>
           <tbody>
             {spots.map((spot) => (
-              <tr
-                key={spot._id}
-                onclick={`location.href='/spots/${spot.slug}'`}
-              >
+              <tr key={spot._id}>
                 <td>
                   <img
                     src={spot.main_photo_url || ""}
@@ -167,7 +172,9 @@ const Home: FC<HomeProps> = ({
                   />
                 </td>
                 <td>
-                  <div class="spot-name">{spot.name}</div>
+                  <a href={`/spots/${spot.slug}`} class="spot-name-link">
+                    {spot.name}
+                  </a>
                 </td>
                 <td>
                   <div class="spot-neighborhood">{spot.neighborhood}</div>
@@ -256,10 +263,26 @@ function parseFilters(c: Context<{ Bindings: CloudflareBindings }>): {
 }
 
 app.get("/", async (c) => {
-  const client = new ConvexHttpClient(c.env.CONVEX_URL);
-  const { queryArgs, rawParams } = parseFilters(c);
-  const spots = await client.query(api.spots.listPublishedSpots, queryArgs);
-  return c.render(<Home spots={spots} {...rawParams} />);
+  try {
+    const client = new ConvexHttpClient(c.env.CONVEX_URL);
+    const { queryArgs, rawParams } = parseFilters(c);
+    const spots = await client.query(api.spots.listPublishedSpots, queryArgs);
+    return c.render(<Home spots={spots} {...rawParams} />);
+  } catch (error) {
+    console.error("Error fetching spots:", error);
+    c.status(500);
+    return c.render(
+      <Layout title="Error | Austin Remote Work Spot Finder">
+        <div class="error-page">
+          <h1>Oops! Something went wrong</h1>
+          <p>We're having trouble loading the spots. Please try again later.</p>
+          <a href="/" class="back-link">
+            Try Again
+          </a>
+        </div>
+      </Layout>,
+    );
+  }
 });
 
 interface SpotDetailPageProps {
@@ -287,28 +310,279 @@ const SpotDetailPage: FC<SpotDetailPageProps> = ({ spot, env }) => {
 };
 
 app.get("/spots/:slug", async (c) => {
-  const slug = c.req.param("slug");
-  const CONVEX_URL = c.env.CONVEX_URL;
-  const client = new ConvexHttpClient(CONVEX_URL);
-  const spot = await client.query(api.spots.getSpotBySlug, { slug });
-  return c.render(
-    <SpotDetailPage
-      spot={spot}
-      env={{ GOOGLE_MAPS_API_KEY: c.env.GOOGLE_MAPS_API_KEY }}
-    />,
-  );
+  try {
+    const slug = c.req.param("slug");
+    const CONVEX_URL = c.env.CONVEX_URL;
+    const client = new ConvexHttpClient(CONVEX_URL);
+    const spot = await client.query(api.spots.getSpotBySlug, { slug });
+
+    if (!spot) {
+      c.status(404);
+      return c.render(
+        <Layout title="Spot Not Found | Austin Remote Work Spot Finder">
+          <div class="error-page">
+            <h1>Spot Not Found</h1>
+            <p>Sorry, we couldn't find a spot with that name.</p>
+            <a href="/" class="back-link">
+              ← Back to all spots
+            </a>
+          </div>
+        </Layout>,
+      );
+    }
+
+    return c.render(
+      <SpotDetailPage
+        spot={spot}
+        env={{ GOOGLE_MAPS_API_KEY: c.env.GOOGLE_MAPS_API_KEY }}
+      />,
+    );
+  } catch (error) {
+    console.error("Error fetching spot:", error);
+    c.status(500);
+    return c.render(
+      <Layout title="Error | Austin Remote Work Spot Finder">
+        <div class="error-page">
+          <h1>Oops! Something went wrong</h1>
+          <p>We're having trouble loading this spot. Please try again later.</p>
+          <a href="/" class="back-link">
+            ← Back to all spots
+          </a>
+        </div>
+      </Layout>,
+    );
+  }
 });
 
-// Route for Suggest a Spot page
+// GET /suggest - Show the suggestion form
 app.get("/suggest", (c) => {
   return c.render(
-    <Layout
-      title="Suggest a New Spot | Austin Remote Work Spot Finder"
-      currentPath="/suggest"
-    >
+    <Layout title="Suggest a New Spot | Austin Remote Work Spot Finder" currentPath="/suggest">
       <SuggestSpotPage />
     </Layout>,
   );
+});
+
+// POST /suggest - Handle form submission
+app.post("/suggest", async (c) => {
+  try {
+    const formData = await c.req.formData();
+
+    // === HELPER: Safely extract and normalize form field ===
+    const normalizeField = (
+      fieldName: string,
+    ): string | undefined => {
+      const value = formData.get(fieldName);
+      if (value === null) return undefined;
+      const trimmed = value.toString().trim();
+      return trimmed === "" ? undefined : trimmed;
+    };
+
+    // === EXTRACT AND NORMALIZE ALL FIELDS ===
+    const spotName = normalizeField("spotName");
+    const address = normalizeField("spotAddress");
+    const neighborhood = normalizeField("spotNeighborhood");
+    const reason = normalizeField("reason");
+    const wifiNotes = normalizeField("wifiNotes");
+    const foodNotes = normalizeField("foodNotes");
+    const crowdNotes = normalizeField("crowdNotes");
+    const powerNotes = normalizeField("powerNotes");
+    const otherNotes = normalizeField("otherNotes");
+    const suggesterName = normalizeField("suggesterName");
+    const suggesterEmail = normalizeField("suggesterEmail");
+
+    // === FRONTEND VALIDATION ===
+
+    // 1. Validate required field: spotName
+    if (!spotName) {
+      return c.render(
+        <Layout
+          title="Suggest a New Spot | Austin Remote Work Spot Finder"
+          currentPath="/suggest"
+        >
+          <SuggestSpotPage error="Spot name is required. Please provide the name of the location." />
+        </Layout>,
+      );
+    }
+
+    // 2. Validate spotName length (max 200 chars)
+    if (spotName.length > 200) {
+      return c.render(
+        <Layout
+          title="Suggest a New Spot | Austin Remote Work Spot Finder"
+          currentPath="/suggest"
+        >
+          <SuggestSpotPage
+            error={`Spot name is too long (${spotName.length} characters). Please keep it under 200 characters.`}
+          />
+        </Layout>,
+      );
+    }
+
+    // 3. Validate optional text field lengths (max 500 chars each)
+    const textFields = [
+      { name: "Address", value: address, max: 500 },
+      { name: "Neighborhood", value: neighborhood, max: 500 },
+      { name: "Reason", value: reason, max: 500 },
+      { name: "WiFi notes", value: wifiNotes, max: 500 },
+      { name: "Food notes", value: foodNotes, max: 500 },
+      { name: "Crowd notes", value: crowdNotes, max: 500 },
+      { name: "Power notes", value: powerNotes, max: 500 },
+      { name: "Other notes", value: otherNotes, max: 500 },
+    ];
+
+    for (const field of textFields) {
+      if (field.value && field.value.length > field.max) {
+        return c.render(
+          <Layout
+            title="Suggest a New Spot | Austin Remote Work Spot Finder"
+            currentPath="/suggest"
+          >
+            <SuggestSpotPage
+              error={`${field.name} is too long (${field.value.length} characters). Please keep it under ${field.max} characters.`}
+            />
+          </Layout>,
+        );
+      }
+    }
+
+    // 4. Validate suggesterName length (max 100 chars)
+    if (suggesterName && suggesterName.length > 100) {
+      return c.render(
+        <Layout
+          title="Suggest a New Spot | Austin Remote Work Spot Finder"
+          currentPath="/suggest"
+        >
+          <SuggestSpotPage
+            error={`Your name is too long (${suggesterName.length} characters). Please keep it under 100 characters.`}
+          />
+        </Layout>,
+      );
+    }
+
+    // 5. Validate suggesterEmail format and length
+    if (suggesterEmail) {
+      // Check max length (RFC 5321 limit)
+      if (suggesterEmail.length > 254) {
+        return c.render(
+          <Layout
+            title="Suggest a New Spot | Austin Remote Work Spot Finder"
+            currentPath="/suggest"
+          >
+            <SuggestSpotPage
+              error={`Email address is too long (${suggesterEmail.length} characters). Please use an email under 254 characters.`}
+            />
+          </Layout>,
+        );
+      }
+
+      // Basic email format validation (RFC 5322 simplified)
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(suggesterEmail)) {
+        return c.render(
+          <Layout
+            title="Suggest a New Spot | Austin Remote Work Spot Finder"
+            currentPath="/suggest"
+          >
+            <SuggestSpotPage error="Please provide a valid email address (e.g., name@example.com)." />
+          </Layout>,
+        );
+      }
+
+      // Reject obviously fake/test emails
+      const suspiciousPatterns = [
+        /test@test/i,
+        /fake@fake/i,
+        /example@example/i,
+        /spam@spam/i,
+      ];
+
+      for (const pattern of suspiciousPatterns) {
+        if (pattern.test(suggesterEmail)) {
+          return c.render(
+            <Layout
+              title="Suggest a New Spot | Austin Remote Work Spot Finder"
+              currentPath="/suggest"
+            >
+              <SuggestSpotPage error="Please provide a real email address. Test/fake emails are not accepted." />
+            </Layout>,
+          );
+        }
+      }
+    }
+
+    // 6. Calculate total payload size (rough estimate)
+    const totalSize = [
+      spotName,
+      address,
+      neighborhood,
+      reason,
+      wifiNotes,
+      foodNotes,
+      crowdNotes,
+      powerNotes,
+      otherNotes,
+      suggesterName,
+      suggesterEmail,
+    ].reduce((sum, val) => sum + (val ? val.length : 0), 0);
+
+    // Reject overly large payloads (max 5KB total)
+    if (totalSize > 5000) {
+      return c.render(
+        <Layout
+          title="Suggest a New Spot | Austin Remote Work Spot Finder"
+          currentPath="/suggest"
+        >
+          <SuggestSpotPage
+            error={`Your submission is too large (${totalSize} characters). Please reduce the total amount of text to under 5000 characters.`}
+          />
+        </Layout>,
+      );
+    }
+
+    // === ALL VALIDATIONS PASSED - SUBMIT TO CONVEX ===
+    const client = new ConvexHttpClient(c.env.CONVEX_URL);
+
+    await client.mutation(api.spots.submitSuggestion, {
+      spot_name: spotName,
+      address: address,
+      neighborhood: neighborhood,
+      reason: reason,
+      wifi_notes: wifiNotes,
+      food_notes: foodNotes,
+      crowd_notes: crowdNotes,
+      power_notes: powerNotes,
+      other_notes: otherNotes,
+      suggester_name: suggesterName,
+      suggester_email: suggesterEmail,
+    });
+
+    return c.render(
+      <Layout
+        title="Thank You | Austin Remote Work Spot Finder"
+        currentPath="/suggest"
+      >
+        <SuggestSpotPage success={true} />
+      </Layout>,
+    );
+  } catch (error) {
+    console.error("Error submitting suggestion:", error);
+
+    // Check if it's a Convex validation error
+    const errorMessage =
+      error instanceof Error && error.message
+        ? error.message
+        : "Sorry, there was an error submitting your suggestion. Please try again.";
+
+    return c.render(
+      <Layout
+        title="Suggest a New Spot | Austin Remote Work Spot Finder"
+        currentPath="/suggest"
+      >
+        <SuggestSpotPage error={errorMessage} />
+      </Layout>,
+    );
+  }
 });
 
 export default app;

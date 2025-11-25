@@ -16,13 +16,14 @@ const Layout: FC<LayoutProps> = ({ children, title, currentPath }) => {
         <link rel="stylesheet" href="/static/styles.css" />
       </head>
       <body>
+        <a href="#main-content" class="skip-link">Skip to main content</a>
         <div class="header">
           <div class="container header-content">
             <div class="logo"><a href="/" style="text-decoration: none; color: inherit;">Austin Remote Work Spots</a></div>
             <div class="tagline">Find the perfect spot to work remotely in Austin</div>
           </div>
         </div>
-        <main>{children}</main>
+        <main id="main-content">{children}</main>
         <footer class="footer">
           <div class="container">
             <div class="footer-content">
