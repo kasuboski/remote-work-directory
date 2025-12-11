@@ -4,6 +4,13 @@
     "convex": {
       "type": "local",
       "command": ["npx", "-y", "convex@latest", "mcp", "start"]
+    },
+    "googlemaps": {
+      "type": "remote",
+      "url": "https://mapstools.googleapis.com/mcp",
+      "headers": {
+        "X-Goog-Api-Key": "{env:MAPS_KEY}"
+      }
     }
   }
 }
