@@ -1,6 +1,6 @@
 ---
-name: "St. Elmo Brewing Company"
-slug: "st-elmo-brewing-company"
+name: "St. Elmo Brewing Company - South Austin"
+slug: "st-elmo-brewing-company-south"
 address: "440 E St Elmo Rd G-2, Austin, TX 78745"
 neighborhood: "South Austin"
 google_places_id: "ChIJjyP9KZi0RIYRSFzNczBDLXM"

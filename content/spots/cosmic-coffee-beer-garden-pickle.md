@@ -1,6 +1,6 @@
 ---
-name: "Cosmic Coffee + Beer Garden"
-slug: "cosmic-coffee-beer-garden"
+name: "Cosmic Coffee + Beer Garden (Cosmic Pickle)"
+slug: "cosmic-coffee-beer-garden-pickle"
 address: "121 Pickle Rd, Austin, TX 78704"
 neighborhood: "South Austin"
 google_places_id: "ChIJA7CVXZW0RIYRVSZIlvlwJbA"
@@ -24,7 +24,7 @@ Food trucks (breakfast–late)
 Mixed, remote workers, families
 
 ## Other Amenities
-Unique garden setting, beer garden
+Unique garden setting, beer garden, outdoor seating
 
 ## Hours of Operation
 Mon-Wed & Sun: 8:00 AM - 11:00 PM, Thu-Sat: 8:00 AM - 12:00 AM (21+ after 7 PM)
