@@ -4,7 +4,7 @@ import matter from "gray-matter";
 import { ConvexHttpClient } from "convex/browser";
 import { api } from "../convex/_generated/api";
 import dotenv from "dotenv";
-import { ParsedPlace, PlaceFrontmatter } from "./types";
+import { Doc } from "../convex/_generated/dataModel";
 
 // Load environment variables
 dotenv.config({ path: ".env.local" });
@@ -12,13 +12,15 @@ dotenv.config();
 
 const PLACES_DIR = path.join(process.cwd(), "content", "places");
 
+type ParsedPlace = Omit<Doc<"spots">, "_id" | "_creationTime">;
+
 // Parse a single markdown file
 function parseMarkdownFile(filePath: string): ParsedPlace | null {
   try {
     const fileContent = fs.readFileSync(filePath, "utf-8");
-    const { data, content } = matter(fileContent);
+    const { data } = matter(fileContent);
 
-    const frontmatter = data as Partial<PlaceFrontmatter>;
+    const frontmatter = data as Partial<ParsedPlace>;
 
     // Validate required fields
     if (!frontmatter.name || !frontmatter.slug) {
@@ -26,10 +28,7 @@ function parseMarkdownFile(filePath: string): ParsedPlace | null {
       return null;
     }
 
-    return {
-      ...frontmatter,
-      content: content.trim(),
-    } as ParsedPlace;
+    return frontmatter as ParsedPlace;
   } catch (error) {
     console.error(`Error parsing ${filePath}:`, error);
     return null;
@@ -79,10 +78,24 @@ async function syncPlaces() {
 
   if (isDryRun) {
     console.log("\n--- Dry Run Summary ---");
-    console.log(`Would sync ${places.length} places to Convex.`);
-    // Here you could add more detailed dry-run logic,
-    // such as fetching existing slugs and showing what would be created/updated/deleted.
-    console.log("--- End Dry Run ---");
+    const existingPlaces = await client.query(api.places.getPlaces);
+    const existingSlugs = new Set(existingPlaces.map((p) => p.slug));
+    const incomingSlugs = new Set(places.map((p) => p.slug));
+
+    const toCreate = places.filter((p) => !existingSlugs.has(p.slug));
+    const toUpdate = places.filter((p) => existingSlugs.has(p.slug));
+    const toDelete = existingPlaces.filter((p) => !incomingSlugs.has(p.slug));
+
+    console.log(`\nTo be created: ${toCreate.length}`);
+    toCreate.forEach((p) => console.log(`  - ${p.name} (${p.slug})`));
+
+    console.log(`\nTo be updated: ${toUpdate.length}`);
+    toUpdate.forEach((p) => console.log(`  - ${p.name} (${p.slug})`));
+
+    console.log(`\nTo be deleted: ${toDelete.length}`);
+    toDelete.forEach((p) => console.log(`  - ${p.name} (${p.slug})`));
+
+    console.log("\n--- End Dry Run ---");
     return;
   }
 

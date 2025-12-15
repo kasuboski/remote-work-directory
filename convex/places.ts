@@ -40,8 +40,13 @@ const placeArgs = {
   phone_number: v.optional(v.string()),
   date_last_verified_admin: v.string(),
   is_published: v.boolean(),
-  content: v.string(),
 };
+
+export const getPlaces = query({
+  handler: async (ctx) => {
+    return await ctx.db.query("spots").collect();
+  },
+});
 
 export const syncPlaces = mutation({
   args: {
