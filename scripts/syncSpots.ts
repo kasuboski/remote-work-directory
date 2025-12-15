@@ -5,6 +5,9 @@ import { ConvexHttpClient } from "convex/browser";
 import { api } from "../convex/_generated/api";
 import dotenv from "dotenv";
 import { Doc } from "../convex/_generated/dataModel";
+import { unified } from "unified";
+import remarkParse from "remark-parse";
+import { Root, Content } from "mdast";
 
 // Load environment variables
 dotenv.config({ path: ".env.local" });
@@ -18,7 +21,7 @@ type ParsedSpot = Omit<Doc<"spots">, "_id" | "_creationTime">;
 function parseMarkdownFile(filePath: string): ParsedSpot | null {
   try {
     const fileContent = fs.readFileSync(filePath, "utf-8");
-    const { data } = matter(fileContent);
+    const { data, content } = matter(fileContent);
 
     const frontmatter = data as Partial<ParsedSpot>;
 
@@ -28,11 +31,48 @@ function parseMarkdownFile(filePath: string): ParsedSpot | null {
       return null;
     }
 
-    return frontmatter as ParsedSpot;
+    const tree = unified().use(remarkParse).parse(content);
+
+    const parsedContent: Partial<ParsedSpot> = {};
+    let currentHeading: string | null = null;
+    let generalContent = "";
+
+    const headingMap: { [key: string]: keyof ParsedSpot } = {
+      "Wifi Notes": "wifi_notes",
+      "Food Notes": "food_notes",
+      "Crowd Notes": "crowd_notes",
+      "Other Amenities": "other_amenities_text",
+      "Hours of Operation": "hours_of_operation_text",
+    };
+
+    for (const node of tree.children) {
+      if (node.type === "heading" && node.depth === 2) {
+        currentHeading = (node.children[0] as any).value;
+      } else {
+        if (currentHeading) {
+          const key = headingMap[currentHeading];
+          if (key) {
+            parsedContent[key] = ((parsedContent[key] || "") + "\n" + nodeToString(node)).trim();
+          }
+        } else {
+          generalContent = (generalContent + "\n" + nodeToString(node)).trim();
+        }
+      }
+    }
+
+    parsedContent.description_admin = generalContent;
+
+    return { ...frontmatter, ...parsedContent } as ParsedSpot;
   } catch (error) {
     console.error(`Error parsing ${filePath}:`, error);
     return null;
   }
+}
+
+function nodeToString(node: Content): string {
+  if ("value" in node) return node.value;
+  if ("children" in node) return node.children.map(nodeToString).join("");
+  return "";
 }
 
 // Get all markdown files from the content directory

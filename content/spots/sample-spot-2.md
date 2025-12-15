@@ -13,3 +13,15 @@ is_published: true
 ---
 
 Another great place to work.
+
+## Wifi Notes
+The wifi is decent, but can be a bit slow at times.
+
+## Food Notes
+They have a small selection of snacks.
+
+## Crowd Notes
+It's usually pretty quiet here.
+
+## Hours of Operation
+9am - 5pm daily
