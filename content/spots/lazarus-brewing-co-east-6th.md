@@ -1,6 +1,6 @@
 ---
-name: "Lazarus Brewing Co."
-slug: "lazarus-brewing-co"
+name: "Lazarus Brewing Co. - East 6th"
+slug: "lazarus-brewing-co-east-6th"
 address: "1902 E 6th St, Austin, TX 78702"
 neighborhood: "East Austin"
 google_places_id: "ChIJlZhRW7a1RIYR5xxRXpc_6tM"
@@ -22,6 +22,9 @@ Tacos, breakfast, lunch, and dinner (7am–11pm)
 
 ## Crowd Notes
 Young professionals, beer lovers, remote workers
+
+## Other Amenities
+Patio, dog-friendly, kid-friendly
 
 ## Hours of Operation
 Mon: Closed, Tue-Wed: 7:30 AM - 10:00 PM, Thu-Fri: 7:30 AM - 12:00 AM, Sat: 10:00 AM - 12:00 AM, Sun: 10:00 AM - 10:00 PM
