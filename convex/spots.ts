@@ -100,7 +100,7 @@ export const listPublishedSpots = query({
 
 /**
  * Submit a new spot suggestion
- * 
+ *
  * DATA RETENTION & PII POLICY:
  * - Suggester email/name are optional PII fields stored for admin follow-up only
  * - Retention: Suggestions retained for 90 days after approval/rejection, then deleted
@@ -109,7 +109,7 @@ export const listPublishedSpots = query({
  * - GDPR/CCPA: Complies with Convex DPA - see https://www.convex.dev/terms/dpa
  * - No automated processing or profiling of PII data
  * - Email never shared with third parties or used for marketing
- * 
+ *
  * VALIDATION:
  * - spot_name: Required, max 200 chars
  * - All notes fields: Optional, max 500 chars each
@@ -134,7 +134,7 @@ export const submitSuggestion = mutation({
   returns: v.id("suggestions"),
   handler: async (ctx, args) => {
     // === VALIDATION & SANITIZATION ===
-    
+
     // Trim all string fields
     const trimmed = {
       spot_name: args.spot_name.trim(),
@@ -236,7 +236,7 @@ export const submitSuggestion = mutation({
         /spam@spam/i,
         /^a+@/i, // aaaa@domain.com
       ];
-      
+
       for (const pattern of suspiciousPatterns) {
         if (pattern.test(trimmed.suggester_email)) {
           throw new ConvexError({
@@ -283,3 +283,89 @@ export const submitSuggestion = mutation({
     return suggestionId;
   },
 })
+
+const spotArgs = {
+  name: v.string(),
+  slug: v.string(),
+  address: v.string(),
+  neighborhood: v.optional(v.string()),
+  google_places_id: v.optional(v.string()),
+  wifi_quality: v.union(
+    v.literal("Excellent"),
+    v.literal("Good"),
+    v.literal("Fair"),
+    v.literal("Poor"),
+    v.literal("Unknown")
+  ),
+  wifi_notes: v.optional(v.string()),
+  food_available: v.boolean(),
+  food_notes: v.optional(v.string()),
+  crowd_level_typical: v.union(
+    v.literal("Quiet"),
+    v.literal("Moderate"),
+    v.literal("Busy"),
+    v.literal("Varies"),
+    v.literal("Unknown")
+  ),
+  crowd_notes: v.optional(v.string()),
+  power_outlets: v.union(
+    v.literal("Plenty"),
+    v.literal("Some"),
+    v.literal("Few"),
+    v.literal("None"),
+    v.literal("Unknown")
+  ),
+  other_amenities_text: v.optional(v.string()),
+  description_admin: v.optional(v.string()),
+  main_photo_url: v.optional(v.string()),
+  hours_of_operation_text: v.optional(v.string()),
+  website_url: v.optional(v.string()),
+  phone_number: v.optional(v.string()),
+  date_last_verified_admin: v.string(),
+  is_published: v.boolean(),
+};
+
+export const getSpots = query({
+  handler: async (ctx) => {
+    return await ctx.db.query("spots").collect();
+  },
+});
+
+export const syncSpots = mutation({
+  args: {
+    spots: v.array(v.object(spotArgs)),
+  },
+  handler: async (ctx, args) => {
+    const existingSpots = await ctx.db.query("spots").collect();
+    const incomingSlugs = new Set(args.spots.map((p) => p.slug));
+    const existingSlugs = new Set(existingSpots.map((p) => p.slug));
+
+    let created = 0;
+    let updated = 0;
+    let deleted = 0;
+
+    // Create or update spots
+    for (const spot of args.spots) {
+      const existingSpot = existingSpots.find((p) => p.slug === spot.slug);
+      if (existingSpot) {
+        // Update
+        await ctx.db.patch(existingSpot._id, spot);
+        updated++;
+      } else {
+        // Create
+        await ctx.db.insert("spots", spot);
+        created++;
+      }
+    }
+
+    // Delete spots
+    for (const existingSpot of existingSpots) {
+      if (!incomingSlugs.has(existingSpot.slug)) {
+        await ctx.db.delete(existingSpot._id);
+        deleted++;
+      }
+    }
+
+    return { created, updated, deleted };
+  },
+});

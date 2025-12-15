@@ -10,17 +10,17 @@ import { Doc } from "../convex/_generated/dataModel";
 dotenv.config({ path: ".env.local" });
 dotenv.config();
 
-const PLACES_DIR = path.join(process.cwd(), "content", "places");
+const SPOTS_DIR = path.join(process.cwd(), "content", "spots");
 
-type ParsedPlace = Omit<Doc<"spots">, "_id" | "_creationTime">;
+type ParsedSpot = Omit<Doc<"spots">, "_id" | "_creationTime">;
 
 // Parse a single markdown file
-function parseMarkdownFile(filePath: string): ParsedPlace | null {
+function parseMarkdownFile(filePath: string): ParsedSpot | null {
   try {
     const fileContent = fs.readFileSync(filePath, "utf-8");
     const { data } = matter(fileContent);
 
-    const frontmatter = data as Partial<ParsedPlace>;
+    const frontmatter = data as Partial<ParsedSpot>;
 
     // Validate required fields
     if (!frontmatter.name || !frontmatter.slug) {
@@ -28,7 +28,7 @@ function parseMarkdownFile(filePath: string): ParsedPlace | null {
       return null;
     }
 
-    return frontmatter as ParsedPlace;
+    return frontmatter as ParsedSpot;
   } catch (error) {
     console.error(`Error parsing ${filePath}:`, error);
     return null;
@@ -37,22 +37,22 @@ function parseMarkdownFile(filePath: string): ParsedPlace | null {
 
 // Get all markdown files from the content directory
 function getAllMarkdownFiles(): string[] {
-  if (!fs.existsSync(PLACES_DIR)) {
-    console.log(`Creating content directory: ${PLACES_DIR}`);
-    fs.mkdirSync(PLACES_DIR, { recursive: true });
+  if (!fs.existsSync(SPOTS_DIR)) {
+    console.log(`Creating content directory: ${SPOTS_DIR}`);
+    fs.mkdirSync(SPOTS_DIR, { recursive: true });
     return [];
   }
 
-  const files = fs.readdirSync(PLACES_DIR);
+  const files = fs.readdirSync(SPOTS_DIR);
   return files
     .filter((file) => file.endsWith(".md"))
-    .map((file) => path.join(PLACES_DIR, file));
+    .map((file) => path.join(SPOTS_DIR, file));
 }
 
 // Main sync function
-async function syncPlaces() {
+async function syncSpots() {
   const isDryRun = process.argv.includes("--dry-run");
-  console.log(isDryRun ? "Starting places sync (dry run)..." : "Starting places sync...");
+  console.log(isDryRun ? "Starting spots sync (dry run)..." : "Starting spots sync...");
 
   const convexUrl = process.env.VITE_CONVEX_URL || process.env.CONVEX_URL;
   if (!convexUrl) {
@@ -67,24 +67,24 @@ async function syncPlaces() {
   const markdownFiles = getAllMarkdownFiles();
   console.log(`Found ${markdownFiles.length} markdown files`);
 
-  const places: ParsedPlace[] = [];
+  const spots: ParsedSpot[] = [];
   for (const filePath of markdownFiles) {
-    const place = parseMarkdownFile(filePath);
-    if (place) {
-      places.push(place);
-      console.log(`Parsed: ${place.name} (${place.slug})`);
+    const spot = parseMarkdownFile(filePath);
+    if (spot) {
+      spots.push(spot);
+      console.log(`Parsed: ${spot.name} (${spot.slug})`);
     }
   }
 
   if (isDryRun) {
     console.log("\n--- Dry Run Summary ---");
-    const existingPlaces = await client.query(api.places.getPlaces);
-    const existingSlugs = new Set(existingPlaces.map((p) => p.slug));
-    const incomingSlugs = new Set(places.map((p) => p.slug));
+    const existingSpots = await client.query(api.spots.getSpots);
+    const existingSlugs = new Set(existingSpots.map((p) => p.slug));
+    const incomingSlugs = new Set(spots.map((p) => p.slug));
 
-    const toCreate = places.filter((p) => !existingSlugs.has(p.slug));
-    const toUpdate = places.filter((p) => existingSlugs.has(p.slug));
-    const toDelete = existingPlaces.filter((p) => !incomingSlugs.has(p.slug));
+    const toCreate = spots.filter((p) => !existingSlugs.has(p.slug));
+    const toUpdate = spots.filter((p) => existingSlugs.has(p.slug));
+    const toDelete = existingSpots.filter((p) => !incomingSlugs.has(p.slug));
 
     console.log(`\nTo be created: ${toCreate.length}`);
     toCreate.forEach((p) => console.log(`  - ${p.name} (${p.slug})`));
@@ -99,18 +99,18 @@ async function syncPlaces() {
     return;
   }
 
-  console.log(`\nSyncing ${places.length} places to Convex...`);
+  console.log(`\nSyncing ${spots.length} spots to Convex...`);
 
   try {
-    const result = await client.mutation(api.places.syncPlaces, { places });
+    const result = await client.mutation(api.spots.syncSpots, { spots });
     console.log("Sync complete!");
     console.log(`  Created: ${result.created}`);
     console.log(`  Updated: ${result.updated}`);
     console.log(`  Deleted: ${result.deleted}`);
   } catch (error) {
-    console.error("Error syncing places:", error);
+    console.error("Error syncing spots:", error);
     process.exit(1);
   }
 }
 
-syncPlaces().catch(console.error);
+syncSpots().catch(console.error);
