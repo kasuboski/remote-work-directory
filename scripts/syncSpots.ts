@@ -66,9 +66,33 @@ function parseMarkdownFile(filePath: string): ParsedSpot | null {
       }
     }
 
-    parsedContent.description_admin = generalContent;
+    parsedContent.description_admin = generalContent || "";
 
-    return { ...frontmatter, ...parsedContent } as ParsedSpot;
+    // Ensure all optional string fields default to empty string if not found
+    // This matches the database schema where optional string fields are empty strings, not undefined
+    const optionalStringFields: (keyof ParsedSpot)[] = [
+      "neighborhood",
+      "google_places_id",
+      "wifi_notes",
+      "food_notes",
+      "crowd_notes",
+      "other_amenities_text",
+      "description_admin",
+      "main_photo_url",
+      "hours_of_operation_text",
+      "website_url",
+      "phone_number",
+    ];
+
+    const result = { ...frontmatter, ...parsedContent } as any;
+
+    for (const field of optionalStringFields) {
+      if (result[field] === undefined) {
+        result[field] = "";
+      }
+    }
+
+    return result as ParsedSpot;
   } catch (error) {
     console.error(`Error parsing ${filePath}:`, error);
     return null;
@@ -143,7 +167,32 @@ async function syncSpots() {
   const incomingSlugs = new Set(spots.map((p) => p.slug));
 
   const toCreate = spots.filter((p) => !existingSlugs.has(p.slug));
-  const toUpdate = spots.filter((p) => existingSlugs.has(p.slug));
+
+  // Only count as "to update" if there are actual differences
+  const toUpdate = spots.filter((p) => {
+    if (!existingSlugs.has(p.slug)) return false;
+
+    const existingSpot = existingSpots.find((s) => s.slug === p.slug);
+    if (!existingSpot) return false;
+
+    // Compare all fields except _id and _creationTime
+    const allKeys = new Set([
+      ...Object.keys(p),
+      ...Object.keys(existingSpot).filter((k) => k !== "_id" && k !== "_creationTime"),
+    ]);
+
+    for (const key of allKeys) {
+      const incomingValue = (p as any)[key];
+      const existingValue = (existingSpot as any)[key];
+
+      if (JSON.stringify(incomingValue) !== JSON.stringify(existingValue)) {
+        return true; // Has differences
+      }
+    }
+
+    return false; // No differences
+  });
+
   const toDelete = existingSpots.filter((p) => !incomingSlugs.has(p.slug));
 
   if (isDryRun) {

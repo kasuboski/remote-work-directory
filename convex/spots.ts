@@ -358,9 +358,27 @@ export const syncSpots = mutation({
     for (const spot of args.spots) {
       const existingSpot = existingSpots.find((p) => p.slug === spot.slug);
       if (existingSpot) {
-        // Update
-        await ctx.db.patch(existingSpot._id, spot);
-        updated++;
+        // Check if there are actual differences before updating
+        const allKeys = new Set([
+          ...Object.keys(spot),
+          ...Object.keys(existingSpot).filter((k) => k !== "_id" && k !== "_creationTime"),
+        ]);
+
+        let hasDifferences = false;
+        for (const key of allKeys) {
+          const incomingValue = (spot as any)[key];
+          const existingValue = (existingSpot as any)[key];
+
+          if (JSON.stringify(incomingValue) !== JSON.stringify(existingValue)) {
+            hasDifferences = true;
+            break;
+          }
+        }
+
+        if (hasDifferences) {
+          await ctx.db.patch(existingSpot._id, spot);
+          updated++;
+        }
       } else {
         // Create
         await ctx.db.insert("spots", spot);
