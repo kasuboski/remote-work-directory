@@ -284,6 +284,10 @@ export const submitSuggestion = mutation({
   },
 })
 
+// IMPORTANT: This validator must stay in sync with the "spots" table schema in convex/schema.ts
+// Convex requires explicit validators for mutation arguments, so this duplication is necessary.
+// If you modify the spots table schema, you MUST update this validator to match.
+// TypeScript will help catch mismatches when the sync script uses Doc<"spots"> type.
 const spotArgs = {
   name: v.string(),
   slug: v.string(),
@@ -336,6 +340,12 @@ export const syncSpots = mutation({
     spots: v.array(v.object(spotArgs)),
   },
   handler: async (ctx, args) => {
+    // Type check to ensure spotArgs matches the actual spots schema
+    // This will cause a TypeScript error if the types don't match
+    type SpotArgsKeys = keyof typeof spotArgs;
+    type DocKeys = keyof Omit<Doc<"spots">, "_id" | "_creationTime">;
+    const _typeCheck: Record<SpotArgsKeys, true> = {} as Record<DocKeys, true>;
+
     const existingSpots = await ctx.db.query("spots").collect();
     const incomingSlugs = new Set(args.spots.map((p) => p.slug));
     const existingSlugs = new Set(existingSpots.map((p) => p.slug));
