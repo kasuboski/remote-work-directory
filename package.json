@@ -6,11 +6,16 @@
     "cf-typegen": "wrangler types --env-interface CloudflareBindings"
   },
   "dependencies": {
+    "@types/mdast": "^4.0.4",
     "convex": "^1.24.1",
-    "hono": "^4.7.9"
+    "dotenv": "^17.2.3",
+    "gray-matter": "^4.0.3",
+    "hono": "^4.7.9",
+    "remark-parse": "^11.0.0",
+    "unified": "^11.0.5"
   },
   "devDependencies": {
-    "@types/node": "^22.15.18",
+    "@types/node": "^22.19.3",
     "wrangler": "^4.16.0"
   }
 }

@@ -11,13 +11,15 @@
 }
 
 .spot-detail h1 {
-  font-family: 'Bebas Neue', sans-serif;
+  font-family: "Bebas Neue", sans-serif;
   font-size: 3.5rem;
   color: var(--primary-blue);
   text-transform: uppercase;
   letter-spacing: 2px;
   margin-bottom: var(--spacing-base);
-  text-shadow: 2px 2px 0 var(--retro-yellow), 3px 3px 0 var(--dark-brown);
+  text-shadow:
+    2px 2px 0 var(--retro-yellow),
+    3px 3px 0 var(--dark-brown);
 }
 
 .spot-detail .neighborhood {
@@ -75,7 +77,7 @@
 }
 
 .detail-item h3 {
-  font-family: 'Bebas Neue', sans-serif;
+  font-family: "Bebas Neue", sans-serif;
   font-size: 1.5rem;
   color: var(--primary-blue);
   margin-bottom: var(--spacing-base);
@@ -93,6 +95,10 @@
 .detail-item p {
   color: var(--text-dark);
   margin-bottom: var(--spacing-base);
+}
+
+.description {
+  margin-top: var(--spacing-base);
 }
 
 .detail-item .notes {
@@ -118,7 +124,7 @@
 }
 
 .contact-section h3 {
-  font-family: 'Bebas Neue', sans-serif;
+  font-family: "Bebas Neue", sans-serif;
   font-size: 1.5rem;
   color: var(--primary-blue);
   margin-bottom: var(--spacing-large);
@@ -163,11 +169,11 @@
   .spot-detail h1 {
     font-size: 2.5rem;
   }
-  
+
   .detail-item {
     margin-bottom: var(--spacing-base);
   }
-  
+
   .spot-detail .main-image,
   .spot-detail .map-section {
     box-shadow: 4px 4px 0 var(--retro-yellow);

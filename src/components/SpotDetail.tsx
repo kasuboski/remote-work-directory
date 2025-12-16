@@ -1,15 +1,15 @@
-import type { FC } from 'hono/jsx'
-import type { Doc } from '../../convex/_generated/dataModel'
-import WifiIcon from './icons/WifiIcon'
-import UtensilsIcon from './icons/UtensilsIcon'
-import UsersIcon from './icons/UsersIcon'
-import PowerPlugIcon from './icons/PowerPlugIcon'
+import type { FC } from "hono/jsx";
+import type { Doc } from "../../convex/_generated/dataModel";
+import WifiIcon from "./icons/WifiIcon";
+import UtensilsIcon from "./icons/UtensilsIcon";
+import UsersIcon from "./icons/UsersIcon";
+import PowerPlugIcon from "./icons/PowerPlugIcon";
 
 interface SpotDetailProps {
-  spot: Doc<'spots'>
+  spot: Doc<"spots">;
   env: {
-    GOOGLE_MAPS_API_KEY: string
-  }
+    GOOGLE_MAPS_API_KEY: string;
+  };
 }
 
 const SpotDetail: FC<SpotDetailProps> = ({ spot, env }) => {
@@ -32,11 +32,11 @@ const SpotDetail: FC<SpotDetailProps> = ({ spot, env }) => {
     website_url,
     phone_number,
     date_last_verified_admin,
-  } = spot
+  } = spot;
 
   const getMapEmbed = () => {
-    if (!google_places_id) return undefined
-    
+    if (!google_places_id) return undefined;
+
     return (
       <iframe
         width="600"
@@ -46,21 +46,20 @@ const SpotDetail: FC<SpotDetailProps> = ({ spot, env }) => {
         allowFullScreen
         src={`https://www.google.com/maps/embed/v1/place?q=place_id:${google_places_id}&key=${env.GOOGLE_MAPS_API_KEY}`}
       />
-    )
-  }
+    );
+  };
 
   const formatDate = (dateStr: string) => {
-    if (!dateStr) return 'Not yet verified'
-    return new Date(dateStr).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    })
-  }
+    if (!dateStr) return "Not yet verified";
+    return new Date(dateStr).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  };
 
   return (
     <>
-
       <div class="container">
         <article class="spot-detail">
           <header>
@@ -70,15 +69,24 @@ const SpotDetail: FC<SpotDetailProps> = ({ spot, env }) => {
           </header>
 
           {main_photo_url && (
-            <img src={main_photo_url} alt={`${name} - Remote Work Location`} class="main-image" />
+            <img
+              src={main_photo_url}
+              alt={`${name} - Remote Work Location`}
+              class="main-image"
+            />
           )}
 
           <section class="map-section">{getMapEmbed()}</section>
 
           <section class="details-grid">
-            {(wifi_quality !== 'Unknown' || wifi_notes) && (
+            {(wifi_quality !== "Unknown" || wifi_notes) && (
               <div class="detail-item wifi-details">
-                <h3><span class="icon"><WifiIcon size={24} /></span>WiFi</h3>
+                <h3>
+                  <span class="icon">
+                    <WifiIcon size={24} />
+                  </span>
+                  WiFi
+                </h3>
                 <p class="quality">{wifi_quality}</p>
                 {wifi_notes && <p class="notes">{wifi_notes}</p>}
               </div>
@@ -86,23 +94,40 @@ const SpotDetail: FC<SpotDetailProps> = ({ spot, env }) => {
 
             {(food_available || food_notes) && (
               <div class="detail-item food-details">
-                <h3><span class="icon"><UtensilsIcon size={24} /></span>Food</h3>
-                <p class="availability">{food_available ? 'Available' : 'Not Available'}</p>
+                <h3>
+                  <span class="icon">
+                    <UtensilsIcon size={24} />
+                  </span>
+                  Food
+                </h3>
+                <p class="availability">
+                  {food_available ? "Available" : "Not Available"}
+                </p>
                 {food_notes && <p class="notes">{food_notes}</p>}
               </div>
             )}
 
-            {(crowd_level_typical !== 'Unknown' || crowd_notes) && (
+            {(crowd_level_typical !== "Unknown" || crowd_notes) && (
               <div class="detail-item crowd-details">
-                <h3><span class="icon"><UsersIcon size={24} /></span>Typical Crowd Level</h3>
+                <h3>
+                  <span class="icon">
+                    <UsersIcon size={24} />
+                  </span>
+                  Typical Crowd Level
+                </h3>
                 <p class="crowd">{crowd_level_typical}</p>
                 {crowd_notes && <p class="notes">{crowd_notes}</p>}
               </div>
             )}
 
-            {power_outlets !== 'Unknown' && (
+            {power_outlets !== "Unknown" && (
               <div class="detail-item power-details">
-                <h3><span class="icon"><PowerPlugIcon size={24} /></span>Power Outlets</h3>
+                <h3>
+                  <span class="icon">
+                    <PowerPlugIcon size={24} />
+                  </span>
+                  Power Outlets
+                </h3>
                 <p class="availability">{power_outlets}</p>
               </div>
             )}
@@ -121,6 +146,7 @@ const SpotDetail: FC<SpotDetailProps> = ({ spot, env }) => {
               <p>{description_admin}</p>
             </section>
           )}
+          <br></br>
 
           {(hours_of_operation_text || website_url || phone_number) && (
             <section class="contact-section">
@@ -135,7 +161,11 @@ const SpotDetail: FC<SpotDetailProps> = ({ spot, env }) => {
                 {website_url && (
                   <div class="contact-item">
                     <strong>Website:</strong>
-                    <a href={website_url} target="_blank" rel="noopener noreferrer">
+                    <a
+                      href={website_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
                       Visit Website →
                     </a>
                   </div>
@@ -143,7 +173,9 @@ const SpotDetail: FC<SpotDetailProps> = ({ spot, env }) => {
                 {phone_number && (
                   <div class="contact-item">
                     <strong>Phone:</strong>
-                    <a href={`tel:${phone_number}`} class="phone">{phone_number}</a>
+                    <a href={`tel:${phone_number}`} class="phone">
+                      {phone_number}
+                    </a>
                   </div>
                 )}
               </div>
@@ -153,14 +185,15 @@ const SpotDetail: FC<SpotDetailProps> = ({ spot, env }) => {
           {date_last_verified_admin && (
             <footer>
               <p class="verification-date">
-                Information last verified by admin on {formatDate(date_last_verified_admin)}
+                Information last verified by admin on{" "}
+                {formatDate(date_last_verified_admin)}
               </p>
             </footer>
           )}
         </article>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default SpotDetail
+export default SpotDetail;
